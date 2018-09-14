@@ -1,0 +1,25 @@
+**********************************************************
+
+
+HTML
+
+
+**********************************************************
+
+
+
+HTML is a mark up language and not a programming language.
+
+<!DOCTYPE html> is not actually an element but an instruction to the browser as to what type of HTML to use; here it's v5.
+
+Each HTML document has a head and a body. The head can include the title, CSS styles, info for search engines, and more. All the visible items are in the body.
+
+Attributes provide additional information about an element. For example image tags often include source and alternative text attributes:
+
+    <img src="./author.jpg" alt="Jackson Gonzalez" />
+
+To make a link open in another tab use the target attribute:
+
+    <a href="https://www.udemy.com/" target="_blank">Link to udemy</a>
+
+

@@ -1,0 +1,878 @@
+**********************************************************
+
+
+CSS 
+
+
+**********************************************************
+
+- Intro and Box Rendering Objects
+- CSS Syntax
+- How to use a Style Sheet
+- Position
+- Display
+- width
+- height
+- More on borders
+- Flexbox
+- Toolbar Example
+- Side Draw Example
+- Modals in React
+- Using Media Queries to Disable an Element
+- Lists
+- Centering Text
+
+
+
+
+Intro and Box Rendering Objects
+------------------------------------------------
+
+
+CSS stands for Cascading Style Sheets. 
+
+CSS describes how HTML elements are to be displayed on screen, paper, or in other media, and is generally stored in .css files. 
+
+Each node in the document tree generates zero or more 'rendering objects'. A rendering object is defined by a set of CSS properties. There are three types of rendering objects, one of which is the box, which is ment for screens. Boxes are rectangular objects with padding, borders, and margins. https://www.w3.org/TR/WD-CSS2-971104/box.html
+
+Each box has a core content area (e.g., text, an image, etc.) and optional surrounding padding, border and margin areas. There are no properties to set the color of margins and padding; margins are always transparent and padding areas always uses the background of the element itself.
+
+The width (resp., height) of the box is given by the sum of the content width (resp., height), the padding, the border, and the margin. The size of the margin, border and padding are set with the margin, padding, and border properties, respectively. The width of the element is the width of the content, i.e., the distance between left inner edge and right inner edge. The height of the element is the height of the content, i.e., the distance from inner top to inner bottom (see more in the eidth section).
+
+The top is the top of the object including any padding, border and margin; it is only defined for inline and floating elements, not for non-floating block-level elements. The inner top is the top of the content, inside any padding, border or margin. 
+
+Margin properties are used to create space around elements, outside of any defined borders. Possible values are <length> | <percentage> | auto | inherit. Auto horizontally centers the element within its container. Negative values are possible. the initial value is 0. You can also use the em unit. This is relative to the element's font size: '1em' is equal to the size of the font in use.
+
+Percentage values for margin on each side refer to the percentage of the box's alloted WIDTH (outer width). Say I specify margin-left and margin-right at 10%, the border is 1 px wide, and the content is currently 438px wide. Then the left and right margins are 55px: 55*2 + 1*2 + 438 = 550, and 10% of 550 is 55. The interesing thing is that margin-top will also be based off the same width (not height) calculation. All else being equal it too will be 55px for a 10% setting. Now, if remove margin-left and margin right, the content has more space to expand into the box (unless otherwise specified the box size is configured by the browser). The box is still the same size except the content now has a width of 548, plus 2px for the borders. So a 10% margin-top is still 55px. Specifying more margin will squeeze in the content. 
+
+The padding properties describe how much space to insert between the border and the content (e.g., text or image). 
+
+The border property is a shorthand property for the following individual border properties:
+
+	border-width
+	border-style (required)
+	border-color
+
+
+Eg:
+
+	border: 1px solid black;
+
+The <border-width> value has these possible values:
+
+'thin' | 'medium' | 'thick' | <length>
+
+
+The border style properties refer to the <border-style> value type which is defined as follows:
+
+	none | dotted | dashed | solid | double | groove | ridge | inset | outset
+
+
+To round a border:
+	border-radius: 5px;
+
+
+When specifying margin, padding and border, multiple arguments can be used:
+
+	one value: all four border widths are set to that value
+	two values: top and bottom border widths are set to the first value, right and left are set to the second
+	three values: top is set to the first, right and left are set to the second, bottom is set to the third
+	four values: top, right, bottom and left, respectively
+
+
+
+
+CSS Syntax
+------------------------------------------------
+
+
+Section summary: selectors inlcude element type, id, class, class-element mix, body, psuedo and grouped elements. We can apply multiple classes to an element.
+
+
+
+A CSS rule-set consists of a selector and a declaration block. For example:
+
+
+h1 {color:blue; font-size:12px;}
+
+Where h1 is the selector that points to the HTML element you want to style.
+
+
+The declaration block contains one or more declarations separated by semicolons. Each declaration includes a CSS property name and a value, separated by a colon. In our example we have two declarations. The first has a property of color associated with blue. The second has a font-size of 12 pixels. Example (produces three paragraphs which are in red text and centre aligned):
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+p {
+    text-align: center;
+    color: red;
+}
+</style>
+</head>
+<body>
+
+<p>Every paragraph will be affected by the style.</p>
+<p id="para1">Me too!</p>
+<p>And me!</p>
+
+</body>
+</html>
+
+
+The id selector allows the targeting of specific elements (use a # followed by the element's id):
+
+#para1 {
+    text-align: center;
+    color: red;
+}
+
+<p id="para1">Hello World!</p>
+<p>This paragraph is not affected by the style.</p>
+
+
+The class selector selects elememts with a specific class attribute. In the next example two different elements types are both styled by the smae code:
+
+.center {
+    text-align: center;
+    color: red;
+}
+
+
+<h1 class="center">Red and center-aligned heading</h1>
+<p class="center">Red and center-aligned paragraph.</p>
+
+
+We can also specify that only certain HTML elements should be affected by a class.
+
+
+p.center {
+    text-align: center;
+    color: red;
+}
+
+<h1 class="center">This heading will not be affected</h1>
+<p class="center">This paragraph will be red and center-aligned.</p>
+
+A specific element can also be styled by more than one class:
+
+
+p.center {
+    text-align: center;
+    color: red;
+}
+
+p.large {
+    font-size: 300%;
+}
+
+<h1 class="center">This heading will not be affected</h1>
+<p class="center">This paragraph will be red and center-aligned.</p>
+<p class="center large">This paragraph will be red, center-aligned, and in a large font-size.</p>
+
+
+Selectors can be grouped:
+
+h1, h2, p {
+    text-align: center;
+    color: red;
+}
+
+
+To change the style for the entire page use the body element selector:
+
+
+<style>
+body {
+    background-color: linen;
+}
+</style>
+
+
+Pseudo Selectors, such as :hover, help distinguish states such as a move hover:
+
+
+	<style> 
+	div {
+    		width: 100px;
+    		height: 100px;
+    		background: red;
+    		transition: width 2s;
+	}
+
+	div:hover {
+    		width: 300px;
+	}
+	</style>
+	</head>
+	<body>
+	<div></div>
+
+	<p>Hover over the div element above, to see the transition effect.</p>
+
+	</body>
+
+
+
+
+Targeting Specific Class Elements:
+
+While several elments may share the same CSS rule we can still distinguish them with individual styling. Say we have three elements that share the class name "call-out". We want each call-out element to have many style features in common, such as padding and margin, but we want each to have a different background:
+
+.call-out {
+	padding: 20px;
+	margin-bottom: 20px;
+	flex: 1;
+}
+
+.call-out:nth-child(1) {background-color: #c0dbe2;}
+.call-out:nth-child(2) {background-color: #cdf1c3;}
+.call-out:nth-child(3) {background-color: #ccb9da;}
+
+
+We can also target, say the last of these three, with a different right margin:
+
+.call-out:last-child {
+	margin-right: 0;
+}
+
+
+
+
+A CSS comment starts with /* and ends with */. Comments can also span multiple lines
+
+
+
+
+
+How to use a Style Sheet
+---------------------------------------------------
+
+
+There are three ways to insert a style : external, internal, and inline.
+
+With an external style sheet each page must include a reference to the external style sheet file inside the <link> element. The <link> element goes inside the <head> section:
+
+
+<head>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+
+An external style sheet can be written in any text editor. The file should not contain any html tags. The style sheet file must be saved with a .css extension.
+
+An internal style sheet may be used if one single page has a unique style.
+
+Internal styles are defined within the <style> element, inside the <head> section of an HTML page (as in the examples within the previous section).
+
+An inline style may be used to apply a unique style for a single element. Just add the style attribute to the relevant element:
+
+<h1 style="color:blue;margin-left:30px;">This is a heading.</h1>  [not that inline assignments use quotation marks ont he RHS of the assignment operator]
+
+If the internal style is defined after the link to the external style sheet then the internal style sheet will be used. However, if the internal style is defined before the link to the external style sheet then the external will be used.
+
+
+
+Eg1 internal used:
+
+<head>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+<style>
+h1 {
+    color: orange;
+}
+</style>
+</head>
+
+
+
+Eg2 external used:
+
+<head>
+<style>
+h1 {
+    color: orange;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+
+
+Cascading order: 
+
+1. Inline style (inside an HTML element)
+2. External and internal style sheets (in the head section)
+3. Browser default
+
+
+
+
+
+Position
+-------------------------------------------------
+
+position: static - The default value for position. This basically says "let the browser lay this thing out without any special positioning".
+
+position: relative - Allows you to position an element relative to it's static position using the offsets provided by the top, right, bottom and left properties. 
+
+position: fixed - Allows you to position an element relative to the viewport (browser window, essentially) using the offsets provided by the top, right, bottom, and left properties.
+
+position: absolute - Allows you to position an element relative to it's first non statically positioned parent using the top, right, bottom, and left properties. If there is no non-statically positioned parent, the <html> element will be used
+
+Say you want to postion an element relative to a parent. What you want is essentially to use position: absolute on the div you want to position and then top, right, bottom, and left to control the exact positioning. However, if you just do this, you'll notice that the element positions itself relative to the <html> element. If you want to position it relative to something else (in your case, it's direct parent), you'll need to give that element a non-static position. Anything that's not position: static will work here (even another position: absolute) but in most cases, you likely want that parent element to just stay where it is without any special positioning. So in order to give that element "non-static positioning" without actually moving it from it's static position, you can actually give it position: relative, but don't specify any values for top, right, bottom, or left. This way you are positioning the element relative to it's static position by 0px.
+
+
+So to position something relative to it's container (or any ancestor for that matter) you need to:
+ - Set the container/ancestor to position: relative
+ - Set the element to position: absolute
+ - Give the element values of top, right, bottom, and left values as you see fit
+
+
+
+Display
+--------------------------------------------------
+
+The display property is the most important CSS property for controlling layout; it specifies if/how an element is displayed. The default display value for most elements is block or inline.
+
+A block-level element always starts on a new line and takes up the full width available (stretches out to the left and right as far as it can).
+
+Examples of block-level elements:
+
+	<div>
+	<h1> - <h6>
+	<p>
+	<form>
+	<header>
+	<footer>
+	<section>
+
+An inline element does not start on a new line and only takes up as much width as necessary. Examples:
+
+	<span>
+	<a>
+	<img>
+
+(Using a span is thus a useful way to create in line styling for part of the inner HTML of a component).
+
+
+display: none; is commonly used with JavaScript to hide and show elements without deleting and recreating them. The <script> element uses display: none; as default. You can also use visibility:hidden which means an element will not be seen but the layout does not change.
+
+Some display values refer to inside elements, eg
+
+    display: flow;
+    display: table;
+    display: flex;
+    display: grid;
+
+
+
+width
+-----------------------------------------------
+
+The width CSS property specifies the width of an element. By default, the property defines the width of the content area. If box-sizing is set to border-box, however, it instead determines the width of the border area.
+
+If width is set to auto then all the available horizontal space is used. If padding and/or margin is included, then all parts of the box, including the content adjust to fit.
+
+If, instead, width is set at 100%, and then padding and a margin are set, then the element will spill over to the right. It is in this non-auto case that the width of an element does not include padding, borders, or margins. 
+
+The min-width and max-width properties override the width property.
+
+
+
+height
+-----------------------------------------------
+
+The height CSS property specifies the height of an element. By default, the property defines the height of the content area, which means the height of an element does not include padding, borders, or margins. If box-sizing is set to border-box, however, it instead determines the height of the border area. 
+
+If height: auto; the element will automatically adjust its height to allow its content to be displayed correctly.
+
+If height is set to a numeric value (like pixels, (r)em, percentages) then if the content does not fit within the specified height (of the parent element), it will overflow. How the container will handle the overflowing content is defined by the overflow property.
+
+
+The min-height and max-height properties override height.
+
+
+
+
+More on Borders
+--------------------------------------------------
+
+To make sure the height really includes the padding and the border:
+
+    box-sizing: border-box;
+
+By using an invisible border, the border is generally invisible but this makes a differnce during hover.
+
+    text-decoration: none;
+    border-bottom: 4px solid transparant;
+
+And so in :hover or :active we can then specify (looks cool):
+
+    background-color: #8F5C2C;
+    border-bottom: 4px solid #40A4C8;
+    color: white;
+
+
+
+
+
+Flexbox
+--------------------------------------------------
+
+
+see "Flexbox Tutorial (CSS): Real Layout Examples" in youtube.
+
+
+The CSS rule for the parent div should include 
+
+	display: flex;
+
+
+Then, if you want a child element to have a share of all the remaining space, it should have a relative sharing ratio. If all elements are to equally share the main container then each would have 
+
+	flex: 1;
+
+If there were three elements and one was to take up half of the main container then the dominant element would have flex: 2;  while the remaining two would have flex:1;
+
+If we had two elements, but we only wanted one to expand and fill the remaining space, the this larger element would use flex:1 while its sibling would stay quiet on flex value. It will get its normal auto size.
+
+
+
+Order:
+
+
+We can order elements within a flex container without having to cut and paste child divs in the html (which we may not want to do for search engine purposes). For the first element use:
+
+ order: 1; 
+
+And the second used order: 2;  etc. 
+
+In this CSS example we have a container div with the class name "column-layout". We make it a flex container with the CSS value display: flex. Within it are three children. One is the main column, which we would like in the middle and with much more space, and then two small side bars. One side bar is on the left and one on the right:
+
+	.column-layout {
+
+		max-width: 1300px;
+		backfround-color: #FFF;
+		margin: 40px auto 0 auto;
+		line-height: 1.65;
+		padding: 20px 50 px;
+		display: flex;
+	}
+
+	.main-column {
+		flex:3;
+		order: 2;
+	}
+
+	.sidebar-one {
+		flex: 1;
+		order: 1;
+	}
+
+	.sidebar-two {
+		flex: 1;
+		order: 3;
+	}
+
+
+
+
+
+
+Uniform vs Non-Uniform Height:
+
+
+One of the strengths of flex is equal heights. For example we may have three child elements arrange across the page. Each child has a different amount of text but they will all be the same height. However, should we not want this property we can use the following CSS value in the parent CSS rule:
+
+	align-items: flex-start;
+
+
+The three elements will be aligned across the top, or start of the flex container, and drop to different lengths. If we would like the three elements to be flush along the bottom of the parent container then we use:
+
+	align-items: flex-end;
+
+To centre the three elements around the middle of the parent flex container, we can use:
+
+	align-items: center;
+
+(The default, which was always there, was align-items: stretch; )
+
+
+
+
+Margins:
+
+In non-flex CSS we could just target individual margins for each child element. However, there is a flex approach. In the child CSS rule change flex: 1 to a wdith percentage (note if you assign both padding and width CSS values ,then you should also use box-sizing: border-box so that the math stays as simple as possible):
+
+
+.call-out {
+	padding: 20px;
+	box-sizing: border-box;
+	margin-bottom: 20px;
+	width: 30%   
+}
+
+(An alternative to width, and really the proper flexbox way, is to use flex-basis: 30%)
+
+Since there are 3 elements we now have used 90% of the available space. This leaves 10% to evenly divide up as margins. We do this by targeting the parent element with a justify content value:
+
+.call-outs-container {
+	max-width: 1400px;
+	margin: 40px auto 0 auto;
+	display: flex;
+	justify-content: space-between;
+}
+
+The default value for justify-content is start. This will psuh all three children to the left and leave the 10% at the end, or right. Using 'end' as a value will move the three elements to the right, and consequently leave the 10% of background color on the left, or start. The value "center" will align the content in the midle of the parent container, leaving 5% background on each side.
+
+
+
+
+Layout for Small Screens like Tablets and Smart Phones:
+
+For a quick idea as to how your page will look on a small screen just resize the browser window. One problem is that child text ends up looking very squeezed if the children are left felxed accross the screen. Lines of text become only a few words across. For small screens we need paragraphs to sit on top of each other.
+
+If we remove the flex and justify parent values, we can then reintroduce them with a media query that targets screen sizes over 900 pixels:
+
+	.call-outs-container {
+		max-width: 1400px;
+		margin: 40px auto 0 auto;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.call-out {
+		padding: 20px;
+		box-sizing: border-box;
+		margin-bottom: 20px;
+		width: 30%   
+	}
+
+
+	@media (min-width: 900px) {
+		.call-outs-container {
+			display: flex;
+			justify-content: space-between;
+	}
+
+So the flex properties will only apply to a large screen now.
+
+
+
+Multiple Rows of Items on Smaller Screens:
+
+
+Say we have a number of elements in a row across a flex container, and each of these elements is of a fixed size (eg 150px x 100px). As the screen size decreases flex will narrow the margin between each elements but as the screen becomes very small flex becomes stubborn. It will refuse to push elements into another row. Instead the elements will begin to merge. We can tell flexbox to make multiple rows with a the flex-wrap property in the parent container. By default it is set to 'nowrap'. In the parent CSS rule use:
+
+	flex-wrap: wrap;
+
+
+Simple Centering:
+
+In this example we want to centre some text, "Center Me Please" both vertically and horizontally within a box (with a class name of "banner").
+
+original html:
+
+<div class="banner">
+	div class="center-me">Center Me Please</div>
+<div>
+
+
+original CSS:
+
+
+.banner {
+	height: 400px;
+	max-width: 700px;
+	margin: 40px auto 40px auto;
+	background-color: #2a2a2a;
+}
+
+.center-me {
+	color: #FFF;
+	font-size: 50px;
+}
+
+We are not going to fix the width and height values of the text. It will dynammically change as required (in the past centering content with an unkown width and height has been notoriously tricky). Without flex box we could have used text-align: center to horizontally center the text. 'margin: 0 auto;" has been around a long time. It adds no vertical margin set the horizontal margins to auto. However the vertically centering would have still been tricky.
+
+With flexbox we tell the parent container to use flex box. We then use "margin: auto" in the child CSS rule to auto margin in all directions. Flexbox works very well with this property.
+
+.banner {
+	height: 400px;
+	max-width: 700px;
+	margin: 40px auto 40px auto;
+	background-color: #2a2a2a;
+	display: flex;
+}
+
+.center-me {
+	color: #FFF;
+	font-size: 50px;
+	margin: auto;
+}
+
+
+
+Nesting and Changing Direction:
+
+
+We can make child containers flex containers as well:
+
+	.parent {
+		display: flex;
+	}
+
+	.some-other-child {
+		flex: 1;
+	}
+
+	.child {
+		flex: 1;
+		display: flex;
+		flex-direction: column; 
+	}
+
+	.grand-child-1 {
+		flex: 1;	
+	}
+
+	.grand-child-1 {
+		flex: 1;	
+	}
+
+
+By default flex-direction is set to row.
+
+So now we have two children side by side, and then two grandchildren, on the right hand side, with one on top of the other. We have made a nice mixture of rows and columns.
+
+
+
+Toolbar Example
+-----------------------------------------
+
+In this styling we want a fix positon at 0,0 so that it always sits at the top. Flex helps the sub elements sit nicely with each other with space between, and then align-items handles vertical alignment. We set a z-index less than that of the backdrop. We also make sure any navigation items span the full height of the toolbar.
+
+    .Toolbar {
+        height: 56px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #703B09;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        box-sizing:  border-box;
+        z-index: 90;
+    }
+
+    .Toolbar nav {
+        height: 100%
+    }
+
+
+For a logo image in the toolbar we might like to use box sizing so that padding is included in the total height.
+
+    .Logo {
+        background-color: white;
+        padding: 8px;
+        height: 80%;
+        box-sizing: border-box;
+        border-radius: 5px;
+    }
+
+    .Logo img {
+        height: 100%;
+    }
+
+
+
+Side Draw Example
+-------------------------------------------------------
+
+    .SideDrawer {
+        position: fixed;
+        width: 280px;
+        max-width: 70%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 200;
+        background-color: white;
+        padding: 32px 16px;
+        box-sizing: border-box;
+        transition: transform 0.3s ease-out;
+    }
+
+    @media (min-width: 500px) {
+        .SideDrawer {
+            display: none;
+        }
+    }
+
+    .Open {
+        transform: translateX(0);
+    }
+
+    .Close {
+        transform: translateX(-100%);
+    }
+
+We see a fixed position on the top left, a z-index above the backdrop, a transition property to react to changes of the transform property and animate them over 300 ms with a ease-out timing function. The transform property is affected by the Open and Close classes. 
+
+The media query is for larger devices, which do not display a side drawer.
+
+The Open and Close classes are conditionally activated in React. They are responsible for animation. Open shifts the panel to the 0,0 fixed positon defined above. Close shifts it all to the left.
+
+Now we want to insert a toogle button that consists of three vertical lines. In the component make three divs and then:
+
+    .DrawerToggle {
+        width: 40px;
+        height: 100%;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px 0;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+
+    .DrawerToggle div {
+        width: 90%;
+        height: 3px;
+        background-color: white;
+    }
+
+    @media (min-width: 500px) {
+        .DrawerToggle {
+            display: none;
+        }
+    }
+
+
+
+Modals in React
+---------------------------------------------------
+
+Create a new UI folder under components (for UI components) and then create a sub folder called Modals. Also create another subfolder named Backdrop. We create a separate backfrop feature because we may want to use it elsewhere, perhaps in the sidebar.
+
+It's just a normal functional component with special styling:
+
+    .Modal {
+        position: fixed;
+        z-index: 500;
+        background-color: white;
+        width: 70%;
+        border: 1px solid #ccc;
+        box-shadow: 1px 1px 1px black;
+        padding: 16px;
+        left: 15%;
+        top: 30%;
+        box-sizing: border-box;
+        transition: all 0.3s ease-out;
+    }
+
+    @media (min-width: 600px) {
+        .Modal {
+            width: 500px;
+            left: calc(50% - 250px);
+        }
+    }
+
+At a higher level we insert the modal and pass on some methods that allow us to later check if the modal should be open, and update that state. We also include the contents of the modal (here <OrderSummary>) as props.children.
+
+    <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler} >
+        <OrderSummary ingredients={this.state.ingredients} />
+    </Modal>
+    <BuildControls 
+        // ...
+        ordered={this.purchaseHandler} />
+
+(ordered={this.purchaseHandler} feeds into the order button)
+
+
+The associated backdrop usess 100% of the width and height, is fixed (so it's not scrollable), and has a z-index so that it sits between the modal and the regular components.
+
+    .Backdrop {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        z-index: 100;
+        left: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    import React from 'react';
+    import classes from './Backdrop.css';
+
+    const backdrop = (props) => (
+        props.show ? <div className={classes.Backdrop} onClick={props.clicked}></div> : null
+    );
+
+    export default backdrop;
+
+We can also use the CSS transition property within a conditional inline style object (vh is the unit for vertical height). This gives us some animation.
+There are a number of places this can be imported. To save on making stateful components we will just place it inside the modal component. 
+
+    import React from 'react';
+    import classes from './Modal.css';
+    import Aux from '../../../hoc/Auz';
+    import Backdrop from '../Backdrop/Backdrop'
+
+    const modal = (props) => (
+        <Aux>
+            <Backdrop show={props.show} clicked={props.modalClosed}/>
+            <div 
+                className={classes.Modal}
+                style={{
+                    transform: props.show ? 'TranslateY(0)' : 'TranslateY(-100vh)',
+                    opacity: props.show ? '1': '0'
+                }}>
+                {props.children}
+            </div>
+        </Aux>
+    );
+
+    export default modal;
+
+
+
+Using Media Queries to Disable an Element
+----------------------------------------------
+
+After setting up a media-query verison of css classes, go through and delete any duplictes. Media queries are later merged with the original classes. 
+
+With media queries and props we can diable entire sub features within certain media based parents (ie we have a side drawer that only exists for mobile devices and so we don't want any tool bar navigation items to appear):
+
+    <nav className={classes.DesktopOnly}>
+        <NavigationItems />
+    </nav>
+
+    @media (max-width: 499px) {
+        .DesktopOnly {
+            display: none;
+        }
+    }
+
+
+Lists
+-----------------------------------------------
+
+If you don't want list items to have default values:
+
+    list-style: none;
+
+To ensure your specified height has an effect in a list:
+
+    display: block;
+
+
+
+
+Centering Text
+-----------------------------------------------
+
+If you are trying to verically align text then don't set a width property. It just pushes the text around.
