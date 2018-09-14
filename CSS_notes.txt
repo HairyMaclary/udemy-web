@@ -37,7 +37,7 @@ Each node in the document tree generates zero or more 'rendering objects'. A ren
 
 Each box has a core content area (e.g., text, an image, etc.) and optional surrounding padding, border and margin areas. There are no properties to set the color of margins and padding; margins are always transparent and padding areas always uses the background of the element itself.
 
-The width (resp., height) of the box is given by the sum of the content width (resp., height), the padding, the border, and the margin. The size of the margin, border and padding are set with the margin, padding, and border properties, respectively. The width of the element is the width of the content, i.e., the distance between left inner edge and right inner edge. The height of the element is the height of the content, i.e., the distance from inner top to inner bottom (see more in the eidth section).
+The total width of the box (resp., height) of the box is given by the sum of the content width (resp., height), the padding, the border, and the margin. The size of the margin, border and padding are set with the margin, padding, and border properties, respectively. However the css width property of the element is only the width of the content, i.e., the distance between left inner edge and right inner edge. The height of the element is the height of the content, i.e., the distance from inner top to inner bottom (see more in the width section).
 
 The top is the top of the object including any padding, border and margin; it is only defined for inline and floating elements, not for non-floating block-level elements. The inner top is the top of the content, inside any padding, border or margin. 
 
@@ -86,40 +86,16 @@ CSS Syntax
 ------------------------------------------------
 
 
-Section summary: selectors inlcude element type, id, class, class-element mix, body, psuedo and grouped elements. We can apply multiple classes to an element.
-
-
-
 A CSS rule-set consists of a selector and a declaration block. For example:
 
-
-h1 {color:blue; font-size:12px;}
+h1 {
+    color:blue; 
+    font-size:12px;
+}
 
 Where h1 is the selector that points to the HTML element you want to style.
 
-
-The declaration block contains one or more declarations separated by semicolons. Each declaration includes a CSS property name and a value, separated by a colon. In our example we have two declarations. The first has a property of color associated with blue. The second has a font-size of 12 pixels. Example (produces three paragraphs which are in red text and centre aligned):
-
-
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-p {
-    text-align: center;
-    color: red;
-}
-</style>
-</head>
-<body>
-
-<p>Every paragraph will be affected by the style.</p>
-<p id="para1">Me too!</p>
-<p>And me!</p>
-
-</body>
-</html>
-
+The declaration block contains one or more declarations separated by semicolons. Each declaration includes a CSS property name and a value, separated by a colon. 
 
 The id selector allows the targeting of specific elements (use a # followed by the element's id):
 
@@ -131,88 +107,84 @@ The id selector allows the targeting of specific elements (use a # followed by t
 <p id="para1">Hello World!</p>
 <p>This paragraph is not affected by the style.</p>
 
+While ids are often used for specific elements (which is not often good practice), class attributes selectors allow us to group elements. In the next example two different elements types are both styled by the smae code:
 
-The class selector selects elememts with a specific class attribute. In the next example two different elements types are both styled by the smae code:
+    .center {
+        text-align: center;
+        color: red;
+    }
 
-.center {
-    text-align: center;
-    color: red;
-}
-
-
-<h1 class="center">Red and center-aligned heading</h1>
-<p class="center">Red and center-aligned paragraph.</p>
+    <h1 class="center">Red and center-aligned heading</h1>
+    <p class="center">Red and center-aligned paragraph.</p>
 
 
 We can also specify that only certain HTML elements should be affected by a class.
 
+    p.center {
+        text-align: center;
+        color: red;
+    }
 
-p.center {
-    text-align: center;
-    color: red;
-}
-
-<h1 class="center">This heading will not be affected</h1>
-<p class="center">This paragraph will be red and center-aligned.</p>
+    <h1 class="center">This heading will not be affected</h1>
+    <p class="center">This paragraph will be red and center-aligned.</p>
 
 A specific element can also be styled by more than one class:
 
+    p.center {
+        text-align: center;
+        color: red;
+    }
 
-p.center {
-    text-align: center;
-    color: red;
-}
+    p.large {
+        font-size: 300%;
+    }
 
-p.large {
-    font-size: 300%;
-}
-
-<h1 class="center">This heading will not be affected</h1>
-<p class="center">This paragraph will be red and center-aligned.</p>
-<p class="center large">This paragraph will be red, center-aligned, and in a large font-size.</p>
+    <h1 class="center">This heading will not be affected</h1>
+    <p class="center">This paragraph will be red and center-aligned.</p>
+    <p class="center large">This paragraph will be red, center-aligned, and in a large font-size.</p>
 
 
-Selectors can be grouped:
+Selectors can be grouped. If elements have the same values then you can clean up the CSS (any any unique values stay in separate blocks):
 
-h1, h2, p {
-    text-align: center;
-    color: red;
-}
+    h1, h2, p {
+        text-align: center;
+        color: red;
+    }
+
+    h1 {
+        font-size: 200%;
+    }
 
 
 To change the style for the entire page use the body element selector:
 
+    body {
+        background-color: linen;
+        font-size: 18px;
+    }
 
-<style>
-body {
-    background-color: linen;
-}
-</style>
+This example also highlights the importance of CSS inheritance. Unless specified otherwise, all decendant elements will have a font size of 18 pixels.
 
+Similary, the asterisk will affect all elements on our webpage. This example is a great way to override all element padding and margin defaults, as well as respecify the width property from content to border (see the box modal):
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
 Pseudo Selectors, such as :hover, help distinguish states such as a move hover:
 
-
-	<style> 
 	div {
-    		width: 100px;
-    		height: 100px;
-    		background: red;
-    		transition: width 2s;
+        width: 100px;
+        height: 100px;
+        background: red;
+        transition: width 2s;
 	}
 
 	div:hover {
     		width: 300px;
 	}
-	</style>
-	</head>
-	<body>
-	<div></div>
-
-	<p>Hover over the div element above, to see the transition effect.</p>
-
-	</body>
-
 
 
 
@@ -238,8 +210,6 @@ We can also target, say the last of these three, with a different right margin:
 }
 
 
-
-
 A CSS comment starts with /* and ends with */. Comments can also span multiple lines
 
 
@@ -247,16 +217,14 @@ A CSS comment starts with /* and ends with */. Comments can also span multiple l
 
 
 How to use a Style Sheet
----------------------------------------------------
-
+--------------------------------------------------
 
 There are three ways to insert a style : external, internal, and inline.
 
 With an external style sheet each page must include a reference to the external style sheet file inside the <link> element. The <link> element goes inside the <head> section:
 
-
 <head>
-<link rel="stylesheet" type="text/css" href="mystyle.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 An external style sheet can be written in any text editor. The file should not contain any html tags. The style sheet file must be saved with a .css extension.
@@ -334,7 +302,7 @@ Display
 
 The display property is the most important CSS property for controlling layout; it specifies if/how an element is displayed. The default display value for most elements is block or inline.
 
-A block-level element always starts on a new line and takes up the full width available (stretches out to the left and right as far as it can).
+A block-level element always starts on a new line and takes up the full available width of the page (stretches out to the left and right as far as it can).
 
 Examples of block-level elements:
 
@@ -346,7 +314,7 @@ Examples of block-level elements:
 	<footer>
 	<section>
 
-An inline element does not start on a new line and only takes up as much width as necessary. Examples:
+An inline element does not start on a new line and only takes up as much width as necessary. This means that successive inline elements will sit alongside each other. Examples:
 
 	<span>
 	<a>
