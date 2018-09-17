@@ -970,7 +970,7 @@ The third option is to put some text in an opaque box somehwere in the image. So
 
 Another option is image blur. Blur the background image and then apply your text.Similarly,you can use an out of focus area to apply the text. In this way you help bring focus on the imartant parts of the image. The trick, however, is too keep the text position over all screen sizes.
 
-One last idea is a floor fade. THe bottom of the image fades to dark and the text is applied in this area.
+One last idea is a floor fade. The bottom of the image fades to dark and the text is applied in this area.
 
 
 
