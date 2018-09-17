@@ -14,6 +14,8 @@ CSS
 - width
 - height
 - More on borders
+- div
+- Float
 - Flexbox
 - Toolbar Example
 - Side Draw Example
@@ -21,6 +23,11 @@ CSS
 - Using Media Queries to Disable an Element
 - Lists
 - Centering Text
+- Typography
+- Color
+- Working with Images
+- Working with Icons
+- Whitespace
 
 
 
@@ -41,7 +48,7 @@ The total width of the box (resp., height) of the box is given by the sum of the
 
 The top is the top of the object including any padding, border and margin; it is only defined for inline and floating elements, not for non-floating block-level elements. The inner top is the top of the content, inside any padding, border or margin. 
 
-Margin properties are used to create space around elements, outside of any defined borders. Possible values are <length> | <percentage> | auto | inherit. Auto horizontally centers the element within its container. Negative values are possible. the initial value is 0. You can also use the em unit. This is relative to the element's font size: '1em' is equal to the size of the font in use.
+Margin properties are used to create space around elements, outside of any defined borders. Possible values are <length> | <percentage> | auto | inherit. Auto horizontally centers the element within its container. Negative values are possible. The initial value is 0. You can also use the em unit. This is relative to the element's font size: '1em' is equal to the size of the font in use.
 
 Percentage values for margin on each side refer to the percentage of the box's alloted WIDTH (outer width). Say I specify margin-left and margin-right at 10%, the border is 1 px wide, and the content is currently 438px wide. Then the left and right margins are 55px: 55*2 + 1*2 + 438 = 550, and 10% of 550 is 55. The interesing thing is that margin-top will also be based off the same width (not height) calculation. All else being equal it too will be 55px for a 10% setting. Now, if remove margin-left and margin right, the content has more space to expand into the box (unless otherwise specified the box size is configured by the browser). The box is still the same size except the content now has a width of 548, plus 2px for the borders. So a 10% margin-top is still 55px. Specifying more margin will squeeze in the content. 
 
@@ -86,7 +93,7 @@ CSS Syntax
 ------------------------------------------------
 
 
-A CSS rule-set consists of a selector and a declaration block. For example:
+A CSS rule-set (or just 'rule') consists of a selector and a declaration block. For example:
 
 h1 {
     color:blue; 
@@ -295,6 +302,19 @@ So to position something relative to it's container (or any ancestor for that ma
  - Set the element to position: absolute
  - Give the element values of top, right, bottom, and left values as you see fit
 
+Another example might be pushing one element to the right. For example we might have a blog post title, <h1>, and the date the blog post was written <p class="date">, both within a container <div class="blog-post">. An we want the date to sit to the right of the title.
+
+After positioning the container to relative, then"
+
+    .date {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+
+So there is no difference between the right side of the parent container and data element.
+
+(Other options include float (see below), and making a flex container for both elements. That container has display: flex; and justify-content: space-between; .
 
 
 Display
@@ -346,7 +366,6 @@ If, instead, width is set at 100%, and then padding and a margin are set, then t
 The min-width and max-width properties override the width property.
 
 
-
 height
 -----------------------------------------------
 
@@ -358,7 +377,6 @@ If height is set to a numeric value (like pixels, (r)em, percentages) then if th
 
 
 The min-height and max-height properties override height.
-
 
 
 
@@ -381,6 +399,42 @@ And so in :hover or :active we can then specify (looks cool):
     color: white;
 
 
+div
+--------------------------------------------------
+
+<div> stands for divide, and is one of the most used elements in HTML.  
+
+
+float
+--------------------------------------------------
+One alterative for lining up two divs, side by side, is to use float and width together. For example,
+
+    .LHS_main_content {
+        width: 75%;
+        float: left;
+    }
+
+    .RHS_side_menu_or_links {
+        width: 25%;
+        float: right;
+    }
+
+Unlike flexbox we can still have a third div, like a footer just appear at the bottom without having to wrap up these first two elements in yet another div. 
+
+However, now the footer needs to be told not to sit directly under the LHS side elements. Create a div just before the footer and give it the class name clearfix.
+
+    <div class='clearfix'></ div>
+    <footer .....
+
+    .clearfix:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+The clear property clears the float [flexbox seems a lot easier to me! - and total divs are still the same. See this and another absolute positioning option in the position section, above].
+
+Another way to use float is two push to items to one side. Say, in my footer I would like an image and then a name right next to it. Just give both the <img> and the <p> float: left . 
 
 
 
@@ -844,3 +898,111 @@ Centering Text
 -----------------------------------------------
 
 If you are trying to verically align text then don't set a width property. It just pushes the text around.
+
+
+
+
+Typography
+-----------------------------------------------
+
+Typography is the art and technique of arranging type to make written language readable and beautiful. It is therefore essential for web design.
+
+Flat design is the modern norm. Buttons and icons do not have shadding or 3-d like features.
+
+15-25 px font size for regular text. 
+
+Headlines have no real font size limits, eg 60px, or even 90px, but at the larger end you will won't to decrease the font-weight of the text. The text will then detract less from other elements, and be more slim-lined and modern.
+
+Use line spacing of between 120-150% of the font size. This makes text easier to read. 45-90 characters per line is the optimal length to read.
+
+Choose good looking fonts. Sans serif typefaces are more netrual, clean and clear. Use these on most odern websites. You might want serif fonts for traditional purposes, storytelling and long reading.
+
+Google fonts is a good free resource. Some good sans fonts include
+    - open sans
+    - lato 
+    - railway
+    - monsterrat
+    - PT sans
+
+Some god serif fonts include:
+    - Cardo
+    - Merriweather
+    - PT serif
+
+Overall, however, choose a font that best represents the feel of your website. And if you are a beginner, use only one typeface. There is a section in this e-book that helps you pair fonts file:///C:/Users/chamilton/Downloads/website-e-bookv2.0.pdf .
+
+
+
+Color
+-------------------------------------------
+
+This is one of the most difficult parts of web design. You do not want distracting colors. They look out of place and make the website look messy.
+
+Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for thi).  
+
+If you really want to mix up multiple colours use a color-wheel. They make use of color theary to make good combinations for you.
+
+Use the main color to draw attention to the main elements on your web page. In fact, if you are not sure which colors to use, just keep a stronger color for the most important elements, like "call to action" buttons. 
+
+Never use black in your design. Black almost never appears in the real world so using it doesn't feel natural.
+
+Because colours can convey emotion, carefully choose the right colors.
+    - red: strength, passion, excitment. Brighter tones are more energetic while lighter tones are more powerful and elegant.
+    - orange draws attention without being as over powering as red. Associated with cheerfulness, freidnlyness, courage and creativity. 
+    - yellow is energetic and gives the feeling of happiness. It assoicates with curosity, brightness and intelligence.
+    - green: harmony, nature, life, money and health. Can also have a balancing affect.
+    - blue: patience, peace, trust-worthyness, and stability. This is one of the most beloved colors, especially by men. This is associated with profesisonalism, trust, and honour.
+    - purple: power, nobility wisdom, luxury, mystery and wealth.
+    - pink: romance, passivity, care, peace, affection, etc.
+    - brown: relaxation, earthiness, nature, comfort, reliability and confidence. 
+
+
+Working with Images
+------------------------------
+
+Image heavy web sites convert better. Here we learn how to put text over images. 
+
+Putting text directly on an image only works if the image is dark and the text is light. Otherwise you do not have enough contrast between the text and the image. 
+
+The most common solution is to overlay the image with a transparant color. Then place your text on the image. Black is the most common color but many options are available - use colors that make sense (see the section above). Color gradients are another option. Check out the course e-book. 
+
+The third option is to put some text in an opaque box somehwere in the image. Sometime the box will be transparent. 
+
+Another option is image blur. Blur the background image and then apply your text.Similarly,you can use an out of focus area to apply the text. In this way you help bring focus on the imartant parts of the image. The trick, however, is too keep the text position over all screen sizes.
+
+One last idea is a floor fade. THe bottom of the image fades to dark and the text is applied in this area.
+
+
+
+Working with Icons
+--------------------------------------
+Icons have a lot of power, but they can also cause confusion when poorly used.
+
+Use them to show features of your website or products that you are selling. Or perhaps steps users must follow to reach some goal. You can also use icons for actions and links.
+
+Rules:
+    - Icons should be instantly recognisable
+    - Label your icons.
+    - Icons should not take center stage in your design. They play a supporting role.
+
+Icons can be static images or vector fonts. Vector fonts scale smoothly when resized. Use fonts.
+
+The ebook list free icon sets.
+
+
+
+Whitespace
+--------------------------------------
+
+Every piece of good design uses white space well. It creates a clean and simple look and feel, but also communicates how elements relate to each other. It is closely related to the idea of 'visual heirachy'; how your content is organised.  
+    - Put whitespace between your elements
+    - Put whitespace between groups of elements
+    - Put whitespace between sections
+    - But don't exaggerate; elements can lose their relationship.
+
+To define your heirachy
+    - Define where you want your audience to look first. 
+    - Establish a flow that corresponds to your content's message.
+    - Use whitespace to build that exact flow.
+
+
