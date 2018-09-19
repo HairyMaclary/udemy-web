@@ -16,6 +16,8 @@ CSS
 - More on borders
 - div
 - Float
+- Buttons
+- px vs %
 - Flexbox
 - Toolbar Example
 - Side Draw Example
@@ -28,7 +30,8 @@ CSS
 - Working with Images
 - Working with Icons
 - Whitespace
-
+- Define Your Project
+- Responsive Web Design
 
 
 
@@ -86,6 +89,25 @@ When specifying margin, padding and border, multiple arguments can be used:
 	three values: top is set to the first, right and left are set to the second, bottom is set to the third
 	four values: top, right, bottom and left, respectively
 
+At the start of a project it may be useful to just clean out all default margins and make everything box-sizing. It is also a good time to add in the font details.
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box
+    }
+
+    html {
+        background-color: #ffffff;
+        color: #555;
+        font-family: 'Lato', 'Arial', sans-serif;
+        font-weight: 300;
+        text-rendering: optimizeLegibility; 
+    }
+
+(if Lato is not available - say there is no internet connection - then Arial is the first back up. Then it's sans-serif).
+(font-weight: 300; is available since it's one of the customise font weights we choose at google fonts)
+(text-rendering: optimizeLegibility; makes the text rendering a lot smoother).
 
 
 
@@ -217,6 +239,36 @@ We can also target, say the last of these three, with a different right margin:
 }
 
 
+With spaces we can also apply a hierachy of classes using just one class name. Consider these two buttons:
+
+    <a class="btn btn-full" href="#">I'm hungry</a>
+    <a class="btn btn-ghost" href="#">Show me more</a>
+
+We can assign all common CSS property values to a .btn {} rule and then supply sub rules for each button type.
+
+    .btn {
+        display: inline-block;
+        padding: 10px 30px;
+        font-weight: 300;
+        text-decoration: none;
+        border-radius: 200px;
+    }
+
+    .btn-full {
+        background-color: #e67e22;
+        border: 1px solid #e67e22;
+        color: #ffffff;
+    }
+
+    .btn-ghost {
+        border: 1px solid #e67e22;
+        color: #e67e22;
+    }
+
+
+
+
+
 A CSS comment starts with /* and ends with */. Comments can also span multiple lines
 
 
@@ -250,27 +302,28 @@ If the internal style is defined after the link to the external style sheet then
 
 Eg1 internal used:
 
-<head>
-<link rel="stylesheet" type="text/css" href="mystyle.css">
-<style>
-h1 {
-    color: orange;
-}
-</style>
-</head>
+    <head>
+        <link rel="stylesheet" type="text/css" href="mystyle.css">
+        <style>
+            h1 {
+                color: orange;
+            }
+        </style>
+    </head>
 
 
 
 Eg2 external used:
 
-<head>
-<style>
-h1 {
-    color: orange;
-}
-</style>
-<link rel="stylesheet" type="text/css" href="mystyle.css">
-</head>
+    <head>
+        <style>
+            h1 {
+                color: orange;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="mystyle.css">
+    </head>
+
 
 
 Cascading order: 
@@ -278,6 +331,24 @@ Cascading order:
 1. Inline style (inside an HTML element)
 2. External and internal style sheets (in the head section)
 3. Browser default
+
+
+You may also have enternal style Sheets you have downloaded, such as normalize.js (normalises styles accross all browsers). 
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="./vendors/css/normalise.css">
+        <link rel="stylesheet" type="text/css" href="./resources/css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,300i,400" rel="stylesheet">
+
+        <title>Omnifood</title>
+    </head>
+
+
+Why does the order in which we place the scripts matter?
+
+Our own script.js file should always be the last one. That's because of the dependencies we have in our code. For example, with jQuery, we use it in our script.js file., so it's a dependency. And we need to load that dependency before we can use it, of course. And that's why the jQuery should be loaded first. And the same of course applied to other external scripts.
+
+
 
 
 
@@ -342,6 +413,8 @@ An inline element does not start on a new line and only takes up as much width a
 
 (Using a span is thus a useful way to create in line styling for part of the inner HTML of a component).
 
+Sometimes we want an inline element to have padding and margin properties (normally they don't). We can activate these options with display: inline-block;
+
 
 display: none; is commonly used with JavaScript to hide and show elements without deleting and recreating them. The <script> element uses display: none; as default. You can also use visibility:hidden which means an element will not be seen but the layout does not change.
 
@@ -351,6 +424,8 @@ Some display values refer to inside elements, eg
     display: table;
     display: flex;
     display: grid;
+
+
 
 
 
@@ -432,9 +507,42 @@ However, now the footer needs to be told not to sit directly under the LHS side 
         clear: both;
     }
 
-The clear property clears the float [flexbox seems a lot easier to me! - and total divs are still the same. See this and another absolute positioning option in the position section, above].
+The clear property clears the float. The .clearfix class has the pseudo-element :after  because we want to properties, especially clear: both  (which does the real work of clearing the floats) to happen at the end of the element (after) on which we use the clearfix class. As for the other properties, there is no real explanation, this is just a "hack", which means that it solves the problem in a strange way. This (or in a slightly different version) is how everybody uses the clearfix.
+
+
+
+[flexbox seems a lot easier to me! - and total divs are still the same. See this and another absolute positioning option in the position section, above].
 
 Another way to use float is two push to items to one side. Say, in my footer I would like an image and then a name right next to it. Just give both the <img> and the <p> float: left . 
+
+
+
+Buttons
+--------------------------------------------------
+
+If your button is make from an anchor/link, <a>, element then you will want to make sure it's style does not changed after a clink. This requires the use of :visited. But, to lump this in with the default case, you will need the default pseudo selector, which is :link.
+
+    .btn:link
+    .btn:visited, {
+        ...
+    }
+
+You might also like to combine hover and active (when we are clicking on the button). In this case we want a darker color than the normal case:
+
+
+
+
+
+
+px vs %
+--------------------------------------------------
+
+So, we use px and % in different situations. We use percentages more for "layout" elements, which means elements that define the layout and that we want to change according to the screen width. Also, percentages are most useful for defining horizontal distances between elements, such as widths  or margin-left  or margin-right , not vertical distances, because responsive web design works with screen widths (horizontal). In other words, everything that we want to change based on the screen width when the screen becomes smaller, should be defined in %.
+
+Also, font-sizes are always defined in %, except for the base font-size defined for the body element, so that we can easily change font-sizes for smaller screen sizes.
+
+We use px to define some margins and paddings, and sometimes to define smaller distances and distances that doesn't need to change when the screen changes. For the paddings, please note that we can only use px here thanks to box-sizing: border-box; , which ensures that the box width (defined in %) always stays the same no matter how much padding we add inside of it.
+
 
 
 
@@ -924,12 +1032,26 @@ Google fonts is a good free resource. Some good sans fonts include
     - monsterrat
     - PT sans
 
-Some god serif fonts include:
+Some good serif fonts include:
     - Cardo
     - Merriweather
     - PT serif
 
 Overall, however, choose a font that best represents the feel of your website. And if you are a beginner, use only one typeface. There is a section in this e-book that helps you pair fonts file:///C:/Users/chamilton/Downloads/website-e-bookv2.0.pdf .
+
+Here we see the styling for a headling element that sits in the middle of the screen above a large image:
+
+    h1{
+        margin: 0;
+        color: #ffffff;
+        font-size: 240%;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        word-spacing: 4px;
+    }
+
+White color is for contrast with the transparant black background on the image. font-size is relative to the globally defined font-size, so will automatically update when the global value changes. Because it's quite a large font, we use font-weight to slim it down (we imorted this custom font weight form google fonts). To make it look nice we also transform the text to uppercase and give the letters and words some spacing.
 
 
 
@@ -938,7 +1060,7 @@ Color
 
 This is one of the most difficult parts of web design. You do not want distracting colors. They look out of place and make the website look messy.
 
-Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for thi).  
+Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/).  
 
 If you really want to mix up multiple colours use a color-wheel. They make use of color theary to make good combinations for you.
 
@@ -972,6 +1094,43 @@ Another option is image blur. Blur the background image and then apply your text
 
 One last idea is a floor fade. The bottom of the image fades to dark and the text is applied in this area.
 
+Sometimes background-attachment: fixed; is nice for background images. Note that this may not work on iOS devices. Use background-attachment: scroll; instead. Alternatively, you could just ignore background-attachment: fixed;  altogether for smaller screen widths.
+
+
+Here is an example of setting a full screen image withing the header element holding a div of class=".hero-text-box". We want the header to sit nicely centered over a large, full screen backkground image.
+
+    <header>
+        <div class="hero-text-box">
+            <h1>Goodbye junk food. Hello super healthy meals.</h1>
+            <a href="#">I'm hungry</a>
+            <a href="#">Show me more</a>
+        </div>
+    </header>
+
+
+    header {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(./img/hero.jpg);
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+    }
+
+    .hero-text-box {
+        position: absolute;
+        width: 1140px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+header:
+
+A height of 100vh means use 100% of the vertical height. This along with a center position means that has the view port resizes so does the image. The background-size property also has a value of cover, otherwise you don't see the background image at all.
+
+background-image essentially takes two arguments/images. The first is a linear gradient that transitions from one color to another. We have it transition to the same thing (transparant black) so that it is all transparant black. This is what will give our text contrast with the background image.
+
+The transform property in the here-text-box allows us to readjust the absolute positioning into the center of the screen.
+
 
 
 Working with Icons
@@ -1004,5 +1163,67 @@ To define your heirachy
     - Define where you want your audience to look first. 
     - Establish a flow that corresponds to your content's message.
     - Use whitespace to build that exact flow.
+
+
+
+Define Your Project
+------------------------------------------
+
+- Define the goal of the Project, eg selling something, releasing a book, show what a company does and where it is located, have peopl sign up on a plan, etc.
+- Define your audience -  the typical user, eg 'busy people who don't have time to cook or don't want to'.
+- Carefully plan you content; text, images, videos, icons, etc.
+    - Start thinking about visual heirachy
+    - This is the 'Content First' approach. Don't just fill a page with content, put consider the content first and design around it.
+- Define the nagviagtion and site structure
+- After having a good think about the design, sketch yoru ideas before you start designing.
+- Make many sketches but don't spend a long time making them perfect.
+- Never start designing without an idea of what you want to build. Get inspiration.
+- Once you have a sketch, use the tips above (color palate, font, whitespace, icons, etc,) to further design. 
+- Continue to design in the browser by adjusting HTML and CSS.
+- Optimise performance and for search engines.
+- After launch, monitor user behaviour and adjust your site as necessary.
+- Update content regularly to show that this is a living site. One way to do this is blogs.
+
+
+Responsive Web Design
+-----------------------------------------
+web pages on any screen size should be easy to navigate. You should not have to zoom in and out to use features.
+
+Google prioritises mobile friendly web pages in it's search results.
+
+The three main ingredients of responsive design are:
+
+    - Fluid grid: all layout elements are sized in relative units, such as percentages, instead of absolute units like pixels.
+    - Flexible images: are also sized in relative units
+    - Media queries: alow us to specify different CSS style rules for different browser widths.
+
+One option is to download "responsive grid system". Other options include bootstrap or wordpress. While it's useful to at least know how to use bootstrap, for now the simpler respoive grid is often enough.
+
+Responsive is organised into rows and columns of a width relative to the browser window. If the screen becomes quite narrow the collumns stack. It's useful to set up some values for our rows:
+
+    .row {
+        max-width: 1140px;
+        margin: 0 auto;
+    }
+
+(Becareful with any styles imported from this library. You ahve to override them.)
+
+
+One area of interest is font-size. Say we have a global fon-size in px. Then, say for <h1> we might specify a percentage:
+
+    h1{
+        font-size: 200%;
+    }
+
+Then should we change the global font-size change, then so will our h1 font size. Ie, the font size in this element is relative to the base size here:
+
+    html {
+        background-color: #ffffff;
+        color: #555;
+        font-family: 'Lato', 'Arial', sans-serif;
+        font-size: 20px;
+        font-weight: 300;
+        text-rendering: optimizeLegibility;
+    }
 
 

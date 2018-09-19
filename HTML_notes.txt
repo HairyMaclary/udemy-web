@@ -23,3 +23,5 @@ To make a link open in another tab use the target attribute:
     <a href="https://www.udemy.com/" target="_blank">Link to udemy</a>
 
 
+If you don't yet have your link address then use href="#". Also, to jsut go to the home page use href="/".
+
