@@ -522,10 +522,16 @@ Buttons
 
 If your button is make from an anchor/link, <a>, element then you will want to make sure it's style does not changed after a clink. This requires the use of :visited. But, to lump this in with the default case, you will need the default pseudo selector, which is :link.
 
-    .btn:link
-    .btn:visited, {
-        ...
+    .btn:link,
+    .btn:visited {
+        display: inline-block;
+        padding: 10px 30px;
+        font-weight: 300;
+        text-decoration: none;
+        border-radius: 200px;
     }
+
+We also see that we line the buttons up with display: inline-block; and we do't want the underline to appear text-decoration: none;
 
 You might also like to combine hover and active (when we are clicking on the button). In this case we want a darker color than the normal case:
 
