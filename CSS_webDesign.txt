@@ -520,7 +520,7 @@ Another way to use float is two push to items to one side. Say, in my footer I w
 Buttons
 --------------------------------------------------
 
-If your button is make from an anchor/link, <a>, element then you will want to make sure it's style does not changed after a clink. This requires the use of :visited. But, to lump this in with the default case, you will need the default pseudo selector, which is :link.
+If your button is make from an anchor/link, <a>, element then you will want to make sure it's style does not changed after a click. This requires the use of :visited. But, to lump this in with the default case, you will need the default pseudo selector, which is :link.
 
     .btn:link,
     .btn:visited {
@@ -531,11 +531,49 @@ If your button is make from an anchor/link, <a>, element then you will want to m
         border-radius: 200px;
     }
 
-We also see that we line the buttons up with display: inline-block; and we do't want the underline to appear text-decoration: none;
+We also see that we line the buttons up with display: inline-block; and we don't want the underline to appear text-decoration: none;
 
-You might also like to combine hover and active (when we are clicking on the button). In this case we want a darker color than the normal case:
+You might also like to combine hover and active (when we are clicking on the button). In this case we want a darker color than the normal case. Transition is also a nice effect to make the change in state to hover more smooth (it takes multiple arguments; a time for each property you which to transition). This example invovles two buttons with slightly different properties:
 
+    .btn:link,
+    .btn:visited {
+        display: inline-block;
+        padding: 10px 30px;
+        font-weight: 300;
+        text-decoration: none;
+        border-radius: 200px;
+        transition: background-color 0.2s, border 0.2s, color 0.2s;
+    }
 
+    .btn-full:link,
+    .btn-full:visited {
+    background-color: #e67e22;
+    border: 1px solid #e67e22;
+    color: #ffffff;
+    margin-right: 15px;
+    }
+
+    .btn-ghost:link,
+    .btn-ghost:visited {
+        border: 1px solid #e67e22;
+        color: #e67e22;
+    }
+
+    .btn:hover,
+    .btn:active {
+        background-color: #cf6d17; 
+    }
+
+    .btn-full:hover,
+    .btn-full:active {
+    border: 1px solid #cf6d17;
+    }
+
+    .btn-ghost:hover,
+    .btn-ghost:active {
+        border: 1px solid #cf6d17;
+        color: #fff;
+ }
 
 
 
