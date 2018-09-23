@@ -1,0 +1,44 @@
+
+
+
+
+
+Do pet projects. Push them to github with an elegant readme. Follow all the best practices. Do not write messy code just because it's your pet project. Create a detailed portfolio out of these projects and put them out in your personal website.
+
+Contribute to open source projects. Even little things like improving a sentence in documentation or reporting a new bug are very important.
+
+Network!!!! Go to tech meet ups, events, conferences. Actively participate in online tech communities such as SOF.
+
+
+
+
+
+What are the biggest myths software engineers believe?
+
+My favourite - I know what I'm doing.
+This code I'm inheriting is crap. I'll have to write it from scratch.
+This is just a temporary hack - I'll come back and fix it later.
+I will commit all my changes at once, once I am done.
+The developer who can code the best is the one that would who should be promoted.
+There is lot of management, that I am wasting time on meetings instead of writing code
+Younger devs are better than older ones
+To be a good developer, you also have to behave nerdy and awkward
+Smarter developers are all that's needed to produce better code
+The business team have no idea what they want.
+My language/framework/operating system is better, faster, most robust than Yours.
+I don't need to learn other languages other than what I master. Using this language I can program any solution.
+Objects are good- Everything should be an object.
+Design patterns are good. If a ‘pattern’ is indeed re-usable, it should be a made into a reusable class or framework (like Model-View-Controller.)
+Development time is predictable and every risk can be managed.
+My way of structuring code is clear and concise. Everyone else can understand.
+I don't like this style of code, it should be refactored to how I do things.
+I'm an awesome programmer.
+Code reviews are a waste of time.
+Meetings are a waste of time.
+Junior programmers aren't experienced enough to have input into the design, structure, etc.
+If I just copy paste code once I wont do it again.
+Writing long methods, classes, etc. make code more readable, since it keeps related code close.
+My code is too complicated for unit testing.
+I've learned everything I need to know to do my job. I should only learn new things purely on a need-to basis.
+I should only fix issues once a client complains. It's ok to ignore/overlook bugs I come across otherwise. It's a waste of time to fix those unless absolutely necessary; I have better things to do.
+Last but not the least -Using Mac OSX makes a better programmer
