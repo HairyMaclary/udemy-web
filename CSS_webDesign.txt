@@ -11,9 +11,10 @@ CSS
 - How to use a Style Sheet
 - Position
 - Display
+- Border
 - width
 - height
-- More on borders
+- Alignment
 - div
 - Float
 - Buttons
@@ -25,7 +26,6 @@ CSS
 - Modals in React
 - Using Media Queries to Disable an Element
 - Lists
-- Centering Text
 - Typography
 - Color
 - Working with Images
@@ -48,39 +48,13 @@ Each node in the document tree generates zero or more 'rendering objects'. A ren
 
 Each box has a core content area (e.g., text, an image, etc.) and optional surrounding padding, border and margin areas. There are no properties to set the color of margins and padding; margins are always transparent and padding areas always uses the background of the element itself.
 
-The total width of the box (resp., height) of the box is given by the sum of the content width (resp., height), the padding, the border, and the margin. The size of the margin, border and padding are set with the margin, padding, and border properties, respectively. However the css width property of the element is only the width of the content, i.e., the distance between left inner edge and right inner edge. The height of the element is the height of the content, i.e., the distance from inner top to inner bottom (see more in the width section).
-
-The top is the top of the object including any padding, border and margin; it is only defined for inline and floating elements, not for non-floating block-level elements. The inner top is the top of the content, inside any padding, border or margin. 
+The total width of the box (resp., height) of the box is given by the sum of the content width (resp., height), the padding, the border, and the margin. The size of the margin, border and padding are set with the margin, padding, and border properties, respectively. However the css width property of the element is, by default, only the width of the content. It is not the total width. Likewise, the height of the element is the height of the content, i.e., the distance from inner top to inner bottom (see more in the width section). If box-sizing is set to border-box, however, it instead determines the width of the border area.
 
 Margin properties are used to create space around elements, outside of any defined borders. Possible values are <length> | <percentage> | auto | inherit. Auto horizontally centers the element within its container. Negative values are possible. The initial value is 0. You can also use the em unit. This is relative to the element's font size: '1em' is equal to the size of the font in use.
 
 Percentage values for margin on each side refer to the percentage of the box's alloted WIDTH (outer width). Say I specify margin-left and margin-right at 10%, the border is 1 px wide, and the content is currently 438px wide. Then the left and right margins are 55px: 55*2 + 1*2 + 438 = 550, and 10% of 550 is 55. The interesing thing is that margin-top will also be based off the same width (not height) calculation. All else being equal it too will be 55px for a 10% setting. Now, if remove margin-left and margin right, the content has more space to expand into the box (unless otherwise specified the box size is configured by the browser). The box is still the same size except the content now has a width of 548, plus 2px for the borders. So a 10% margin-top is still 55px. Specifying more margin will squeeze in the content. 
 
 The padding properties describe how much space to insert between the border and the content (e.g., text or image). 
-
-The border property is a shorthand property for the following individual border properties:
-
-	border-width
-	border-style (required)
-	border-color
-
-
-Eg:
-
-	border: 1px solid black;
-
-The <border-width> value has these possible values:
-
-'thin' | 'medium' | 'thick' | <length>
-
-
-The border style properties refer to the <border-style> value type which is defined as follows:
-
-	none | dotted | dashed | solid | double | groove | ridge | inset | outset
-
-
-To round a border:
-	border-radius: 5px;
 
 
 When specifying margin, padding and border, multiple arguments can be used:
@@ -201,6 +175,13 @@ Similary, the asterisk will affect all elements on our webpage. This example is 
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+    }
+
+Or you can target child elements of, say, a class: 
+
+    .className>* {
+        /*Set flex elements to fill the space equally*/
+        flex-grow: 1;
     }
 
 Pseudo Selectors, such as :hover, help distinguish states such as a move hover:
@@ -353,30 +334,24 @@ Our own script.js file should always be the last one. That's because of the depe
 
 
 
-
-
 Position
 -------------------------------------------------
 
-position: static - The default value for position. This basically says "let the browser lay this thing out without any special positioning".
+position: static - The default value for position. This basically says "let the browser lay this thing out without any special positioning". It will not react to the following properties: top, bottom, left, right, z-index.
 
-position: relative - Allows you to position an element relative to it's static position using the offsets provided by the top, right, bottom and left properties. 
+position: relative - Allows you to position an element relative to it's static position using the offsets provided by the top, right, bottom and left properties, z-index. The element will remain in the natural flow of the page. It also makes the element positioned so that it will act as an anchor point for an absolutely positioned child.
 
-position: fixed - Allows you to position an element relative to the viewport (browser window, essentially) using the offsets provided by the top, right, bottom, and left properties.
+position: fixed - The element will not remain in the natural flow of the page. It will position itself relative to the viewport(browser window, essentially) using the offsets provided by the top, right, bottom, left and z-index properties. Because it's positioned, it will act as an anchor point for an absolutely positioned child.
 
-position: absolute - Allows you to position an element relative to it's first non statically positioned parent using the top, right, bottom, and left properties. If there is no non-statically positioned parent, the <html> element will be used
+position: absolute - Allows you to position an element relative to it's first non statically positioned parent using the top, right, bottom, left and z-index properties. If there is no non-statically positioned parent, the <html> element will be used. The element will not remain in the natural flow of the page. It will position itself according to the closest positioned ancestor. Because it's positioned, it will act as an anchor point for an absolutely positioned child.
 
-Say you want to postion an element relative to a parent. What you want is essentially to use position: absolute on the div you want to position and then top, right, bottom, and left to control the exact positioning. However, if you just do this, you'll notice that the element positions itself relative to the <html> element. If you want to position it relative to something else (in your case, it's direct parent), you'll need to give that element a non-static position. Anything that's not position: static will work here (even another position: absolute) but in most cases, you likely want that parent element to just stay where it is without any special positioning. So in order to give that element "non-static positioning" without actually moving it from it's static position, you can actually give it position: relative, but don't specify any values for top, right, bottom, or left. This way you are positioning the element relative to it's static position by 0px.
+position: sticky 
 
+Say you want to postion an element relative to a parent. Apply position: absolute on the div you want to position and then top, right, bottom, and left to control the exact positioning. However, if you just do this, you'll notice that the element positions itself relative to the <html> element. If you want to position it relative to something else (in your case, it's direct parent), you'll need to give that parent element a non-static position. Anything that's not position: static will work here (even another position: absolute) but in most cases, you likely want that parent element to just stay where it is without any special positioning. So in order to give that element "non-static positioning" without actually moving it from it's static position, you can actually give it position: relative, but don't specify any values for top, right, bottom, or left. This way you are positioning the element relative to it's static position by 0px.
 
-So to position something relative to it's container (or any ancestor for that matter) you need to:
- - Set the container/ancestor to position: relative
- - Set the element to position: absolute
- - Give the element values of top, right, bottom, and left values as you see fit
+Another example might be pushing one element to the right. For example we might have a blog post title, <h1>, and the date the blog post was written <p class="date">, both within a container <div class="blog-post">. And, we want the date to sit to the right of the title.
 
-Another example might be pushing one element to the right. For example we might have a blog post title, <h1>, and the date the blog post was written <p class="date">, both within a container <div class="blog-post">. An we want the date to sit to the right of the title.
-
-After positioning the container to relative, then"
+After positioning the container to relative, then:
 
     .date {
         position: absolute;
@@ -386,7 +361,45 @@ After positioning the container to relative, then"
 
 So there is no difference between the right side of the parent container and data element.
 
-(Other options include float (see below), and making a flex container for both elements. That container has display: flex; and justify-content: space-between; .
+Flexbox is the modern alternative (another option is float - see the section below).  
+
+    .blogHead {
+        /*Set the container to flex box*/
+        display: flex;
+        position: relative;
+        border: 1px solid red;
+        padding: 12px;
+    }
+
+    .blogHead>* {
+        /*Set flex elements to fill the space equally*/
+        flex-grow: 1;
+    }
+
+    .blogDate {
+        text-align: right;
+    }
+
+    h1 {
+        text-align: left;
+    }
+
+
+Note that other position related properties exist:
+
+- right (left): defines the position of the element according to its right (left) edge.
+- bottom (top): defines the position of the element according to its bottom (top) edge.
+
+
+top examples:
+
+- top: auto;  The element will remain in its natural position (default).
+- top: 20px;   If the element is in position relative, the element will move downwards by the amount defined by the top value. If the element is in position absolute, the element will position itself from the top of the first positioned ancestor.
+
+
+
+
+
 
 
 Display
@@ -414,8 +427,10 @@ An inline element does not start on a new line and only takes up as much width a
 
 (Using a span is thus a useful way to create in line styling for part of the inner HTML of a component).
 
-Sometimes we want an inline element to have padding and margin properties (normally they don't). We can activate these options with display: inline-block;
+Any height and width properties will have no effect.
 
+
+Sometimes we want an inline element to have padding and margin properties (normally they don't). We can activate these options with display: inline-block;
 
 display: none; is commonly used with JavaScript to hide and show elements without deleting and recreating them. The <script> element uses display: none; as default. You can also use visibility:hidden which means an element will not be seen but the layout does not change.
 
@@ -427,13 +442,55 @@ Some display values refer to inside elements, eg
     display: grid;
 
 
+Border
+-----------------------------------------------
+
+The border property is a shorthand property for the following individual border properties:
+
+	border-width
+	border-style (required)
+	border-color
+
+
+Eg:
+
+	border: 1px solid black;
+
+The <border-width> value has these possible values:
+
+'thin' | 'medium' | 'thick' | <length>
+
+
+The border style properties refer to the <border-style> value type which is defined as follows:
+
+	none | dotted | dashed | solid | double | groove | ridge | inset | outset
+
+
+To round a border:
+	border-radius: 5px;
+
+
+To make sure the height really includes the padding and the border:
+
+    box-sizing: border-box;
+
+By using an invisible border, the border is generally invisible but this makes a differnce during hover.
+
+    text-decoration: none;
+    border-bottom: 4px solid transparant;
+
+And so in :hover or :active we can then specify (looks cool):
+
+    background-color: #8F5C2C;
+    border-bottom: 4px solid #40A4C8;
+    color: white;
 
 
 
 width
 -----------------------------------------------
 
-The width CSS property specifies the width of an element. By default, the property defines the width of the content area. If box-sizing is set to border-box, however, it instead determines the width of the border area.
+The width CSS property specifies the width of an element. By default, the property defines the width of the content area. If box-sizing is set to border-box, however, it instead determines the width up to and including the border (so not the margin).
 
 If width is set to auto then all the available horizontal space is used. If padding and/or margin is included, then all parts of the box, including the content adjust to fit.
 
@@ -455,24 +512,17 @@ If height is set to a numeric value (like pixels, (r)em, percentages) then if th
 The min-height and max-height properties override height.
 
 
-
-More on Borders
+Alignment
 --------------------------------------------------
 
-To make sure the height really includes the padding and the border:
+Horizontal centering with css is easy. When the element to be centered is an inline element we use text-align center on its parent. When the element is a block level element we give it a width and set the left and right margins to a value of auto.
 
-    box-sizing: border-box;
+If you are trying to verically align text then don't set a width property. It just pushes the text around.
 
-By using an invisible border, the border is generally invisible but this makes a differnce during hover.
+parent in flex box:
 
-    text-decoration: none;
-    border-bottom: 4px solid transparant;
-
-And so in :hover or :active we can then specify (looks cool):
-
-    background-color: #8F5C2C;
-    border-bottom: 4px solid #40A4C8;
-    color: white;
+        display: flex;
+        align-items: center;
 
 
 div
@@ -1058,7 +1108,7 @@ There are a number of places this can be imported. To save on making stateful co
 Using Media Queries to Disable an Element
 ----------------------------------------------
 
-After setting up a media-query verison of css classes, go through and delete any duplictes. Media queries are later merged with the original classes. 
+After setting up a media-query verison of css classes, go through and delete any duplicates. Media queries are later merged with the original classes. 
 
 With media queries and props we can diable entire sub features within certain media based parents (ie we have a side drawer that only exists for mobile devices and so we don't want any tool bar navigation items to appear):
 
@@ -1073,6 +1123,7 @@ With media queries and props we can diable entire sub features within certain me
     }
 
 
+
 Lists
 -----------------------------------------------
 
@@ -1083,14 +1134,6 @@ If you don't want list items to have default values:
 To ensure your specified height has an effect in a list:
 
     display: block;
-
-
-
-
-Centering Text
------------------------------------------------
-
-If you are trying to verically align text then don't set a width property. It just pushes the text around.
 
 
 
@@ -1108,7 +1151,7 @@ Headlines have no real font size limits, eg 60px, or even 90px, but at the large
 
 Use line spacing of between 120-150% of the font size. This makes text easier to read. 45-90 characters per line is the optimal length to read.
 
-Choose good looking fonts. Sans serif typefaces are more netrual, clean and clear. Use these on most odern websites. You might want serif fonts for traditional purposes, storytelling and long reading.
+Choose good looking fonts. Sans serif typefaces are more netrual, clean and clear. Use these on most modern websites. You might want serif fonts for traditional purposes, storytelling and long reading.
 
 Google fonts is a good free resource. Some good sans fonts include
     - open sans
@@ -1126,7 +1169,7 @@ Overall, however, choose a font that best represents the feel of your website. A
 
 Here we see the styling for a headling element that sits in the middle of the screen above a large image:
 
-    h1{
+    h1 {
         margin: 0;
         color: #ffffff;
         font-size: 240%;
@@ -1136,7 +1179,7 @@ Here we see the styling for a headling element that sits in the middle of the sc
         word-spacing: 4px;
     }
 
-White color is for contrast with the transparant black background on the image. font-size is relative to the globally defined font-size, so will automatically update when the global value changes. Because it's quite a large font, we use font-weight to slim it down (we imorted this custom font weight form google fonts). To make it look nice we also transform the text to uppercase and give the letters and words some spacing.
+The white text color is for contrast with the transparant black background on the image (see below on working with images). font-size is relative to the globally defined font-size, so will automatically update when the global value changes. Because it's quite a large font, we use font-weight to slim it down (we imorted this custom font weight from google fonts). To make it look nice we also transform the text to uppercase and give the letters and words some spacing.
 
 
 
@@ -1145,9 +1188,9 @@ Color
 
 This is one of the most difficult parts of web design. You do not want distracting colors. They look out of place and make the website look messy.
 
-Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/).  
+Use just one base/main color for your design. This will be any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/).  
 
-If you really want to mix up multiple colours use a color-wheel. They make use of color theary to make good combinations for you.
+If you really want to mix up multiple colours use a color-wheel. They make use of color theory to make good combinations for you.
 
 Use the main color to draw attention to the main elements on your web page. In fact, if you are not sure which colors to use, just keep a stronger color for the most important elements, like "call to action" buttons. 
 
@@ -1173,16 +1216,15 @@ Putting text directly on an image only works if the image is dark and the text i
 
 The most common solution is to overlay the image with a transparant color. Then place your text on the image. Black is the most common color but many options are available - use colors that make sense (see the section above). Color gradients are another option. Check out the course e-book. 
 
-The third option is to put some text in an opaque box somehwere in the image. Sometime the box will be transparent. 
+The third option is to put some text in an opaque box somehwere in the image. Sometimes the box will be transparent. 
 
-Another option is image blur. Blur the background image and then apply your text.Similarly,you can use an out of focus area to apply the text. In this way you help bring focus on the imartant parts of the image. The trick, however, is too keep the text position over all screen sizes.
+Another option is image blur. Blur the background image and then apply your text.Similarly, you can use an out of focus area to apply the text. In this way you help bring focus on the important parts of the image. The trick, however, is too keep the text position over all screen sizes.
 
 One last idea is a floor fade. The bottom of the image fades to dark and the text is applied in this area.
 
 Sometimes background-attachment: fixed; is nice for background images. Note that this may not work on iOS devices. Use background-attachment: scroll; instead. Alternatively, you could just ignore background-attachment: fixed;  altogether for smaller screen widths.
 
-
-Here is an example of setting a full screen image withing the header element holding a div of class=".hero-text-box". We want the header to sit nicely centered over a large, full screen backkground image.
+Here is an example of setting a full screen image within the header element holding a div of class=".hero-text-box". We want the header to sit nicely centered over a large, full screen backkground image.
 
     <header>
         <div class="hero-text-box">
@@ -1210,11 +1252,11 @@ Here is an example of setting a full screen image withing the header element hol
 
 header:
 
-A height of 100vh means use 100% of the vertical height. This along with a center position means that has the view port resizes so does the image. The background-size property also has a value of cover, otherwise you don't see the background image at all.
+A height of 100vh means use 100% of the vertical height of the image. This along with a center position means that as the view port resizes so does the image. The background-size property also has a value of cover, otherwise you don't see the background image at all.
 
-background-image essentially takes two arguments/images. The first is a linear gradient that transitions from one color to another. We have it transition to the same thing (transparant black) so that it is all transparant black. This is what will give our text contrast with the background image.
+background-image essentially takes two arguments/images. The first is a linear gradient that transitions from one color to another (or a 2nd image url). We have it transition to the same thing (transparant black) so that it is all transparant black. This is what will give our text contrast with the background image.
 
-The transform property in the here-text-box allows us to readjust the absolute positioning into the center of the screen.
+The transform property in the hero-text-box allows us to readjust the absolute positioning into the center of the screen. The transform property applies a 2D or 3D transformation to an element. This property allows you to rotate, scale, move, skew, etc., elements.
 
 
 
@@ -1231,7 +1273,7 @@ Rules:
 
 Icons can be static images or vector fonts. Vector fonts scale smoothly when resized. Use fonts.
 
-The ebook list free icon sets.
+The ebook lists free icon sets.
 
 
 
@@ -1254,25 +1296,27 @@ To define your heirachy
 Define Your Project
 ------------------------------------------
 
-- Define the goal of the Project, eg selling something, releasing a book, show what a company does and where it is located, have peopl sign up on a plan, etc.
+- Define the goal of the Project, eg selling something, releasing a book, show what a company does and where it is located, have people sign up on a plan, etc.
 - Define your audience -  the typical user, eg 'busy people who don't have time to cook or don't want to'.
-- Carefully plan you content; text, images, videos, icons, etc.
-    - Start thinking about visual heirachy
-    - This is the 'Content First' approach. Don't just fill a page with content, put consider the content first and design around it.
+
 - Define the nagviagtion and site structure
 - After having a good think about the design, sketch yoru ideas before you start designing.
 - Make many sketches but don't spend a long time making them perfect.
 - Never start designing without an idea of what you want to build. Get inspiration.
-- Once you have a sketch, use the tips above (color palate, font, whitespace, icons, etc,) to further design. 
+- Once you have a sketch, use the tips above (color palate, font, whitespace, icons, videos, images, etc,) to further design. 
+    - Start thinking about visual heirachy
+    - This is the 'Content First' approach. Don't just fill a page with content, put consider the content first and design around it.
+    - Define the navigation and site structure.
 - Continue to design in the browser by adjusting HTML and CSS.
 - Optimise performance and for search engines.
 - After launch, monitor user behaviour and adjust your site as necessary.
 - Update content regularly to show that this is a living site. One way to do this is blogs.
 
 
+
 Responsive Web Design
 -----------------------------------------
-web pages on any screen size should be easy to navigate. You should not have to zoom in and out to use features.
+Web pages on any screen size should be easy to navigate. You should not have to zoom in and out to use features.
 
 Google prioritises mobile friendly web pages in it's search results.
 
@@ -1291,12 +1335,12 @@ Responsive is organised into rows and columns of a width relative to the browser
         margin: 0 auto;
     }
 
-(Becareful with any styles imported from this library. You ahve to override them.)
+(Be careful with any styles imported from this library. You have to override them.)
 
 
 One area of interest is font-size. Say we have a global fon-size in px. Then, say for <h1> we might specify a percentage:
 
-    h1{
+    h1 {
         font-size: 200%;
     }
 
