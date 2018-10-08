@@ -297,8 +297,6 @@ const version = app.version;
 const type = app.type;
 
 
-
-
 (also note that array destructuring is possible:
 
 
@@ -313,7 +311,6 @@ const type = app.type;
     var [one, two, three] = foo;
 
 )
-
 
 
 6. Comments are not executed. Code after double slashes // or between /* and */ is treated as a comment.
@@ -458,7 +455,7 @@ One good use for undefined is as a signal for when another language might throw 
 Statements
 ------------------------------
 
-The JSEngine uses a syntax parser to go through your code, one character at a time, and tires to work out what you want to do. The parser has certain expectations about how the code should be written. 
+The JSEngine uses a syntax parser to go through your code, one character at a time, and it attempts to understand what you want to do. The parser has certain expectations about how the code should be written. 
 
 One warning relates to carriage returns at the end of a line. The syntax parser sees these invisible characters. The parser will inject a semi-colon for you (to indicate the end of a statement). This is why semi-colons appears optional when you are typing. In reality, they are not optional. So always put in your own semi-colons. Also, return statements cause a particular problem:
 
@@ -470,7 +467,7 @@ One warning relates to carriage returns at the end of a line. The syntax parser 
     }
     console.log(getPerson());  \\undefined
 
-Here the parser has changed 'return' to 'return;', which means that the remaineder of the function is ignored. Instead use something like:
+Here the parser has changed 'return' to 'return;', which means that the remainder of the function is ignored. Instead use something like:
 
         return {
             firstName: 'Tony'
@@ -1350,7 +1347,7 @@ We can pass functions around like variables and return them in functions and use
 
 And since the containing function has the callback function in its parameter as a function definition, it can execute the callback anytime. Even without a name, it can still be accessed later via the arguments object by the containing function.
 
-When we pass a callback function as an argument to another function, the callback is executed at some point inside the containing function’s body just as if the callback were defined in the containing function. he callback function can access the containing functions’ variables, and even the variables from the global scope. This means the callback is a closure (see closures - function plus the variables in the surrounding scope).
+When we pass a callback function as an argument to another function, the callback is executed at some point inside the containing function’s body just as if the callback were defined in the containing function. The callback function can access the containing functions’ variables, and even the variables from the global scope. This means the callback is a closure [see closures - function plus the variables locked in from the surrounding scope when the outter function was executed].
 
 We can use named or anonymous functions as callbacks. Here is an example with a named function:
 
@@ -1428,18 +1425,16 @@ Function expressions can be made "self-invoking", i.e. they are invoked (started
 
 Add parentheses around the function to indicate that it is a function expression:
 
-(function () {
-    var x = "Hello!!";
-    console.log(x)         //Console: Hello!!
-})();
+    (function () {
+        var x = "Hello!!";
+        console.log(x)         //Console: Hello!!
+    })();
 
 
-
-
+`
 
 
 'this' keyword  ( this keyword , "this" ):
-
 
 In JavaScript, the thing called 'this', is the object that "owns" the current code. The value of this, when used in a function, is the object that "owns" the function.  Compare the next two functions. The second works on a property from some other object that has not been passed into the function:
 
@@ -1453,7 +1448,7 @@ In JavaScript, the thing called 'this', is the object that "owns" the current co
     }
 
 
-When code is executed it enters an 'execution context'. Part of the set up for this context is the assignment of a value to 'this'. If the value assigned refers to an object then property accessors prefixed with the 'this' keyword reference properties of that object. If the value assigned (internally) is null then the this keyword will refer to the global object.
+When code is executed it enters a [function based] 'execution context'. Part of the set up for this context is the assignment of a value to 'this'. If the value assigned refers to an object then property accessors prefixed with the 'this' keyword reference properties of that object. If the value assigned (internally) is null then the this keyword will refer to the global object.
 
 So, the value of 'this' depends upon how a function is called. That is, how the execution context was generated.
 
@@ -1477,7 +1472,7 @@ So, the value of 'this' depends upon how a function is called. That is, how the 
 
 In most cases, the value of 'this' is determined by how a function is invoked. It can't be set by assignment during execution ('this' is not a variable. It is a keyword), and it may be different each time the function is called. It also has some differences between strict mode and non-strict mode. ES5 introduced the bind method to set the value of a function's this regardless of how it's called, and ECMAScript 2015 introduced arrow functions (see below) whose 'this' is lexically scoped; it is set to the 'this' value of the lexically enclosing execution context.
 
-JavaScript functions can be invoked in 4 different ways. Each method differs in how 'this' is initialized. The code in a function is not executed when the function is defined. It is executed when the function is invoked. Some people use the term "call a function" instead of "invoke a function". It is also quite common to say "call upon a function", "start a function", or "execute a function". Here, we will use invoke, because a JavaScript function can be invoked without being called.
+JavaScript functions can be invoked in 4 different ways. Each method differs in how 'this' is initialized. The code in a function is not executed when the function is defined. It is executed when the function is invoked. Some people use the term "call a function" instead of "invoke a function". It is also quite common to say "call upon a function", "start a function", or "execute a function". Here, we will use invoke, because a JavaScript function can be invoked without being called (a bit of a non-distinction perhaps.But, when you call a function, you are directly telling it to run. When you invoke a function, you are letting something run it. eg myFunc() is an invocation and call, whereas myObj.myFunc() is only a call ????).
 
 1. In the global execution context (outside of any function), 'this' refers to the global object, whether in strict mode or not:
 
@@ -1515,13 +1510,11 @@ When a function is not a method, the value of this is not changed. Since the cod
     a();  // Window
     b(); // Window
 
-In this cases separate execution contexts are being created for a and b, but the value of 'this' in those contexts is being passed by reference. They are all pointing at the global object, which means you can mutate the global object inside one of these functions.
+In these cases separate execution contexts are being created for a and b, but the value of 'this' in those contexts is being passed by reference. They are all pointing at the global object, which means you can mutate the global object inside one of these functions.
 
     function a() {
         this.newVariable = 'hello'; // a new property on the global object.
     }
-
-
 
 Invoking a function as a method:
 
@@ -1544,7 +1537,7 @@ We could also change back to the global window by creating a new global variable
     globalFunc();     // "comp gangsta"
 
 
-'this' is now being called in another context. [ie we can type window.globalFunc(); which is what is implicitly happening here.] The usual situation in this case is that the global object will have no keys like lastName or fullname, and so you will get 'undefined'. This could be a source of bugs:
+'this' is now being called in another execution context -  the global execution context. [i.e. we can type window.globalFunc(); which is what is implicitly happening here.] The usual situation in this case is that the global object will have no keys like lastName or fullname, and so you will get 'undefined'. This could be a source of bugs:
 
     let dog = {
         sound: 'woof',
@@ -1594,29 +1587,27 @@ The key point is that 'this' is determined by the context at the time of the cal
 Arrow function example:
 
     const a1 = {
-        name:"my name is a", 
-        log:function(){console.log(this)}
+        name: "my name is a", 
+        log: function(){console.log(this)}
     };
 
     const a2 = {
-        name:"my name is a", 
-        log:()=>{console.log(this)}
+        name: "my name is a", 
+        log: ()=>{ console.log(this) }
     };
      
-    a1.log() //{name: "my name is a", log: ƒ}
+    a1.log() // {name: "my name is a", log: ƒ}
      
     a2.log() // Window {postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …}
 
-The MDN docs tell us that arrow functions 'don't provide their own 'this' binding. Instead they retain the 'this' value of the enclosing lexical context.
+Arrow functions 'don't have their own 'this'. Instead they retain the 'this' value of the enclosing lexical context.
 
-So, in this example the arrow function has it's `this` object determined by the surrounding execution context. In this case the surrounding execution context is the global context. As we know, another way of thinking about global is code 'not inside a function'. Variables and functions that are not inside a function are automatically attached to the global object.​ That is, `a2.log()`, the arrow function, lexically sits inside the global execution context. 
+So, in this example the arrow function has it's `this` object determined by the surrounding lexical context. In this case the lexical context is the global context. As we know, another way of thinking about global is code 'not inside a function'. Variables and functions that are not inside a function are automatically attached to the global object.​ And in this case, the varibale of type object, a2, is not inside a function. It must be in the global context. That is, `a2.log()`, the arrow function, lexically sits inside the global execution context. 
 
-Since each [non-arrow] function has its own this binding, whose value depends on the way it is called, you cannot refer to the this of the wrapping scope in a regular function defined with the function keyword.
-
-Arrow functions are different. They do not bind their own this, but can see the 'this' binding of the scope around them. Thus, you can do something like the following code, which references 'this' from inside a local function:
+Since each [non-arrow] function has its own this binding, whose value depends on the way it is called, you cannot refer to the this of the wrapping scope in a regular function defined with the function keyword, whch might actually be useful. In the following code, 'this' is actually from a function that lexically wraps an arrow function:
 
     function normalize() {
-      console.log(this.coords.map(n => n / this.length));
+      console.log(this.coords.map(num => num / this.length));
     }
     normalize.call({coords: [0, 2, 3], length: 5});
     // → [0, 0.4, 0.6]
@@ -2001,7 +1992,7 @@ Exceptions are a mechanism that makes it possible for code that runs into a prob
  
 If exceptions always zoomed right down to the bottom of the stack, they would not be of much use. They’d just provide a novel way to blow up your program. Their power lies in the fact that you can set “obstacles” along the stack to catch the exception as it is zooming down. Once you’ve caught an exception, you can do something with it to address the problem and then continue to run the program.
 
-The throw keyword is used to raise an exception. Catching one is done by wrapping a piece of code in a try block, followed by the keyword catch. When the code in the try block causes an exception to be raised, the catch block is evaluated, with the name in parentheses bound to the exception value. After the catch block finishes. or if the try block finishes without problems, the program proceeds beneath the entire try/catch statement.
+The throw keyword is used to raise an exception. Catching one is done by wrapping a piece of code in a try block, followed by the keyword catch. When the code in the try block causes an exception to be raised, the catch block is evaluated, with the name in parentheses bound to the exception value. After the catch block finishes, or if the try block finishes without problems, the program proceeds beneath the entire try/catch statement. 
 
     function promptDirection(question) {
       let result = prompt(question);
@@ -2023,6 +2014,7 @@ The throw keyword is used to raise an exception. Catching one is done by wrappin
     } catch (error) {
       console.log("Something went wrong: " + error);
     }
+
 
 In this case, we used the Error constructor to create our exception value. This is a standard JavaScript constructor that creates an object with a message property. In most JavaScript environments, instances of this constructor also gather information about the call stack that existed when the exception was created, a so-called stack trace. This information is stored in the stack property and can be helpful when trying to debug a problem: it tells us the function where the problem occurred and which functions made the failing call.
 
