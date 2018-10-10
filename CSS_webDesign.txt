@@ -534,7 +534,7 @@ If your button is make from an anchor/link, <a>, element then you will want to m
 
 We also see that we line the buttons up with display: inline-block; and we don't want the underline to appear text-decoration: none;
 
-You might also like to combine hover and active (when we are clicking on the button). In this case we want a darker color than the normal case. Transition is also a nice effect to make the change in state to hover more smooth (it takes multiple arguments; a time for each property you which to transition). This example invovles two buttons with slightly different properties:
+You might also like to combine hover and active (when we are clicking on the button). In this case we want a darker color than the normal case. Transition is also a nice effect to make the change in state to hover more smooth (it takes multiple arguments; a time for each property you which to transition). The transition occurs as you move into and out of the relevant css rule. This example invovles two buttons with slightly different properties:
 
     .btn:link,
     .btn:visited {
@@ -548,10 +548,10 @@ You might also like to combine hover and active (when we are clicking on the but
 
     .btn-full:link,
     .btn-full:visited {
-    background-color: #e67e22;
-    border: 1px solid #e67e22;
-    color: #ffffff;
-    margin-right: 15px;
+        background-color: #e67e22;
+        border: 1px solid #e67e22;
+        color: #ffffff;
+        margin-right: 15px;
     }
 
     .btn-ghost:link,
@@ -824,6 +824,18 @@ So now we have two children side by side, and then two grandchildren, on the rig
 
 NavBar Example
 ---------------------------------------------
+
+    <nav>
+        <div class="row">
+            <img src="./resources/css/img/logo-white.png" alt="Omnifood logo" class="logo">
+            <ul class="main-nav">
+                <li><a href="#">Food delivery</a></li>
+                <li><a href="#">How it works</a></li>
+                <li><a href="#">Our cities</a></li>
+                <li><a href="#">Sign up</a></li>
+            </ul>
+        </div>
+    </nav>
 
     .logo {
         height: 100px;
@@ -1145,7 +1157,7 @@ Color
 
 This is one of the most difficult parts of web design. You do not want distracting colors. They look out of place and make the website look messy.
 
-Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/).  
+Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/ - the later can give us shade variations).  
 
 If you really want to mix up multiple colours use a color-wheel. They make use of color theary to make good combinations for you.
 

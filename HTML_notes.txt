@@ -253,7 +253,7 @@ iframes
 An iframe is used to display a web page within a web page with the following syntax: <iframe src="URL"></iframe>
 
 
-Entities
+Special Entities
 ----------------------------
 
 Reserved characters, and characters not present on your keyboard, must be replaced with 'character entity' codes. For example, if you use the less than (<) or greater than (>) signs in your text, the browser might mix them with tags. 
@@ -262,6 +262,7 @@ Reserved characters, and characters not present on your keyboard, must be replac
 Result 		Description 			Entity Name 		Entity Number
 
 			non-breaking space 		&nbsp; 				&#160;
+-           hyphen                  &mdash;
 < 			less than 				&lt; 				&#60;
 > 			greater than 			&gt; 				&#62;
 & 			ampersand 				&amp; 				&#38;
