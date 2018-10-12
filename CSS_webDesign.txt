@@ -1256,15 +1256,11 @@ Color
 
 This is one of the most difficult parts of web design. You do not want distracting colors. They look out of place and make the website look messy.
 
-<<<<<<< HEAD
-Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/ - the later can give us shade variations).  
-=======
-Use just one base/main color for your design. This will be any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/).  
->>>>>>> 84bb58aa34eef3f6cd9b8a33a879011ab63e183c
+Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/ - the later can give us shade variations). 
 
 If you really want to mix up multiple colours use a color-wheel. They make use of color theory to make good combinations for you.
 
-Use the main color to draw attention to the main elements on your web page. In fact, if you are not sure which colors to use, just keep a stronger color for the most important elements, like "call to action" buttons. 
+Use the main color to draw attention to the main elements on your web page. In fact, if you are not sure which colors to use, just keep a stronger color for the most important elements, such as "call to action" buttons. 
 
 Never use black in your design. Black almost never appears in the real world so using it doesn't feel natural.
 
