@@ -5244,7 +5244,7 @@ Here is another version of the date and time pattern that allows both single- an
 
 You can also specify open-ended ranges when using braces by omitting the number after the comma. So, {5,} means five or more times.
 
-GGrouping subExpressions: to use an operator like * or + on more than one element at a time, you have to use parentheses. A part of a regular expression that is enclosed in parentheses counts as a single element as far as the operators following it are concerned.
+Grouping subExpressions: to use an operator like * or + on more than one element at a time, you have to use parentheses. A part of a regular expression that is enclosed in parentheses counts as a single element as far as the operators following it are concerned.
 
 let cartoonCrying = /boo+(hoo+)+/i;
 console.log(cartoonCrying.test("Boohoooohoohooo"));
