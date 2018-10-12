@@ -19,6 +19,7 @@ CSS and Web Design
 - Float
 - Buttons
 - px vs %
+- Links
 - Flexbox
 - NavBar example
 - Toolbar Example
@@ -34,6 +35,7 @@ CSS and Web Design
 - Whitespace
 - Define Your Project
 - Responsive Web Design
+- Quotes
 
 
 
@@ -249,8 +251,6 @@ We can assign all common CSS property values to a .btn {} rule and then supply s
     }
 
 A CSS comment starts with /* and ends with */. Comments can also span multiple lines
-
-
 
 
 
@@ -663,6 +663,23 @@ Also, font-sizes are always defined in %, except for the base font-size defined 
 We use px to define some margins and paddings, and sometimes to define smaller distances and distances that doesn't need to change when the screen changes. For the paddings, please note that we can only use px here thanks to box-sizing: border-box; , which ensures that the box width (defined in %) always stays the same no matter how much padding we add inside of it.
 
 
+Links
+--------------------------------------------------
+
+    a:link,
+    a:visited {
+        color: #e67e22;
+        text-decoration: none;
+        padding-bottom: 1px;
+        border-bottom: 1px solid #e67e22;
+        transition: border-bottom 0.2s, color 0.2s;
+    }
+
+    a:hover,
+    a:active {
+        color: #555;
+        border-bottom: 1px solid transparent;/* since we have removed text decoration above, and use our border, transparant is the easy way to remove it*/
+    }
 
 
 Flexbox
@@ -1256,7 +1273,11 @@ Color
 
 This is one of the most difficult parts of web design. You do not want distracting colors. They look out of place and make the website look messy.
 
+<<<<<<< HEAD
 Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/ - the later can give us shade variations). 
+=======
+Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/ - the later can give us shade variations).  
+>>>>>>> 04f3a1e5117a010cbc71abdca845ab0010ed3626
 
 If you really want to mix up multiple colours use a color-wheel. They make use of color theory to make good combinations for you.
 
@@ -1395,7 +1416,23 @@ Example:
         margin-bottom: 10px;
     }
 
-So, like text, we can change the color of the icon with just the color attribute. Similarly, we can also make them bigger/smaller with font-size. A clock display is also useful. Forcing a line break often gives icons the proper space if they are over a paragraph.
+So, like text, we can change the color of the icon with just the color attribute. Similarly, we can also make them bigger/smaller with font-size. A block display is also useful in this case. Forcing a line break often gives icons the proper space if they are over a paragraph. 
+
+However in other cases you might have an icon sitting next to some text. You will also want to line the icon up with the text:
+
+    .icon-small {
+        display: inline-block; /* allows us to use the width property */
+        width: 30px;
+        text-align: center;
+        color: #e67e22;
+        font-size: 120%;
+        margin-right: 10px;
+        
+        /* secrets to align text and icons*/
+        line-height: 120%;
+        vertical-align: middle;
+        margin-top: -4px;  /*pull icons up*/
+    }
 
 
 
@@ -1477,5 +1514,16 @@ Then should we change the global font-size change, then so will our h1 font size
         font-weight: 300;
         text-rendering: optimizeLegibility;
     }
+
+
+Quotes
+---------------------------------------
+
+Example of image (profile pic) next to the quote:
+
+    <blockquote>
+        Inexpensive, healthy and great-tasting meals, delivered right to my home. We have lots of food delivery here in Lisbon, but no one comes even close to Omifood. Me and my family are so in love!
+        <cite><img src="resources/img/customer-2.jpg">Joana Silva</cite>
+    </blockquote>
 
 
