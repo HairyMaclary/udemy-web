@@ -662,6 +662,20 @@ Also, font-sizes are always defined in %, except for the base font-size defined 
 
 We use px to define some margins and paddings, and sometimes to define smaller distances and distances that doesn't need to change when the screen changes. For the paddings, please note that we can only use px here thanks to box-sizing: border-box; , which ensures that the box width (defined in %) always stays the same no matter how much padding we add inside of it.
 
+In this example we have a span as a child element. Spans are only ever used to change the styling of one part of an inline element. Since the parent is using relative sizing and font weight, the span would normally inherit those properties. So in the span we restate those properties. Interestingly, though, we can't just put font-size back to 100%. This would be 100 % of the parent's height. It is not 100% of the project wide default. This means we have to give a very small percentage, which is 30% in this case.
+
+    .plan-price {
+        font-size: 300%;
+        margin-bottom: 10px;
+        font-weight: 100;
+        color: #e67e22;
+    }
+
+    .plan-price span {
+        font-size: 30%;
+        font-weight: 300;
+    }
+
 
 Links
 --------------------------------------------------
@@ -1210,7 +1224,7 @@ In this example we create a custom orange underline for h2 elements:
 
 We must always specify a content property. But, like here, we can leave it blank since we don't want any text in this element.
 
-
+You can see another example, with the content property in use, in the quote section. 
 
 
 
@@ -1266,6 +1280,10 @@ Here we see the styling for a headling element that sits in the middle of the sc
 
 The white text color is for contrast with the transparant black background on the image (see below on working with images). font-size is relative to the globally defined font-size, so will automatically update when the global value changes. Because it's quite a large font, we use font-weight to slim it down (we imorted this custom font weight from google fonts). To make it look nice we also transform the text to uppercase and give the letters and words some spacing.
 
+Sometimes we may have columns of identical information but one line may be inapplicable in one column. Say, for example, a p element has no content in one of the columns. Don't delete the p element. This could mess up the styling for the entire column and make the columns look different. Instead keep it there empty. However, it must have some actual content. Do this with a special entity (see HTML_notes.txt):
+
+    <p class="plan-price-meal">&nbsp;</p>
+
 
 
 Color
@@ -1273,11 +1291,7 @@ Color
 
 This is one of the most difficult parts of web design. You do not want distracting colors. They look out of place and make the website look messy.
 
-<<<<<<< HEAD
 Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/ - the later can give us shade variations). 
-=======
-Use just one base/main color for your design. That is, any colour except black, white, or any shade of grey. You then create a nice color-palete by using related shades (there are tools for this such as https://flatuicolors.com or http://www.0to255.com/ - the later can give us shade variations).  
->>>>>>> 04f3a1e5117a010cbc71abdca845ab0010ed3626
 
 If you really want to mix up multiple colours use a color-wheel. They make use of color theory to make good combinations for you.
 
@@ -1335,6 +1349,7 @@ Here is an example of setting a full screen image within the header element hold
         background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(./img/hero.jpg);
         background-size: cover;
         background-position: center;
+        background-attachment: fixed;  /* really cool! */
         height: 100vh;
     }
 
@@ -1353,6 +1368,8 @@ A height of 100vh means use 100% of the vertical height of the image. This along
 background-image essentially takes two arguments/images. The first is a linear gradient that transitions from one color to another (or a 2nd image url). We have it transition to the same thing (transparant black) so that it is all transparant black. This is what will give our text contrast with the background image.
 
 The transform property in the hero-text-box allows us to readjust the absolute positioning into the center of the screen. The transform property applies a 2D or 3D transformation to an element. This property allows you to rotate, scale, move, skew, etc., elements.
+
+A fixed value for background-attachment is a really nice feature. It fixes the image in place so that as you scroll the text moves over the image.
 
 
 In this example we make a grid of images with transitions on darkness and scale:
@@ -1526,4 +1543,26 @@ Example of image (profile pic) next to the quote:
         <cite><img src="resources/img/customer-2.jpg">Joana Silva</cite>
     </blockquote>
 
+    blockquote:before {
+        content: "\201C";  /* search for glyphs or ISO*/
+        font-size: 500%;
+        display: block;
+        position: absolute;
+        top: -5px;
+        left: -5px;
+    }
 
+    cite {
+        font-size: 90%;
+        margin-top: 25px;
+        display: block;
+    }    
+
+    cite img {
+        height: 45px;
+        border-radius: 50%;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+We use a psuedo selector here to put a nice quote mark. It's also adjusted into the negative so that it looks like the quote is indented. 
