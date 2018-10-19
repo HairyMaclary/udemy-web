@@ -337,38 +337,57 @@ Character 	From Windows-1252 	From UTF-8
 Forms
 ----------------------------
 
-HTML forms, using the <form> element, are used to collect user input. Form elements are different types of input elements; checkboxes, radio buttons, submit buttons, and more. The <input> element is the most important form element. The <input> element has many variations, depending on the type attribute. Examples include text, radio, and submit.
+HTML forms, using the <form> element, are used to collect user input. Form elements are different types of input elements; checkboxes, radio buttons, submit buttons, and more. The <input> element is the most important form element. The <input> element has many variations, depending on the type attribute. Examples include text, radio, and submit. You can also stop navigation until it is completes by using the required attribute.
 
 <input type="text"> defines a one-line input field for text input (with a default witdth of 20 characters for the input box):
 
- <form>
-  First name:<br>
-  <input type="text" name="firstname">
-  <br>
-  Last name:<br>
-  <input type="text" name="lastname">
-</form> 
+    <form>
+        First name:<br>
+        <input type="text" name="firstname">
+        <br>
+        Last name:<br>
+        <input type="text" name="lastname">
+    </form> 
+
+<input type="email" name="email" id="email" placeholder="Your email" required>  defines a required input for an email address.
 
 <input type="radio"> defines a radio button. Radio buttons let a user select ONE of a limited number of choices:
 
- <form>
-  <input type="radio" name="sex" value="male" checked>Male
-  <br>
-  <input type="radio" name="sex" value="female">Female
- </form> 
+    <form>
+    <input type="radio" name="sex" value="male" checked>Male
+    <br>
+    <input type="radio" name="sex" value="female">Female
+    </form> 
 
 
 <input type="submit"> defines a button for submitting a form to a form-handler. The form-handler is typically a server page with a script for processing input data. The form-handler is specified in the form's action attribute:
 
- <form action="action_page.php">
-  First name:<br>
-  <input type="text" name="firstname" value="Mickey">
-  <br>
-  Last name:<br>
-  <input type="text" name="lastname" value="Mouse">
-  <br><br>
-  <input type="submit" value="Submit">
-</form> 
+    <form action="action_page.php">
+    First name:<br>
+    <input type="text" name="firstname" value="Mickey">
+    <br>
+    Last name:<br>
+    <input type="text" name="lastname" value="Mouse">
+    <br><br>
+    <input type="submit" value="Submit">
+    </form> 
+
+To make a drop down box we use a select element with option elements. The initial visible option will be the one with the selected attribute.
+
+    <select name="find-us" id="find-us">
+        <option value="friends" selected>Friends</option>
+        <option value="search">Search engine</option>
+        <option value="ad">Advertisement</option>
+        <option value="other">Other</option>
+    </select>
+
+
+A checkbox:
+
+    input type="checkbox" name="news" id="news" checked> Yes, please
+
+
+
 
 The action attribute defines the action to be performed when the form is submitted. The common way to submit a form to a server, is by using a submit button. 
 Normally, the form is submitted to a web page on a web server. In the example above, a server-side script is specified to handle the submitted form.

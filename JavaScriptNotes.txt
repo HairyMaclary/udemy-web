@@ -457,7 +457,7 @@ Statements
 
 The JSEngine uses a syntax parser to go through your code, one character at a time, and it attempts to understand what you want to do. The parser has certain expectations about how the code should be written. 
 
-One warning relates to carriage returns at the end of a line. The syntax parser sees these invisible characters. The parser will inject a semi-colon for you (to indicate the end of a statement). This is why semi-colons appears optional when you are typing. In reality, they are not optional. So always put in your own semi-colons. Also, return statements cause a particular problem:
+One warning relates to carriage returns at the end of a line. The syntax parser sees these invisible characters. The parser will inject a semi-colon for you (to indicate the end of a statement). This is why semi-colons appear optional when you are typing. In reality, they are not optional. So always put in your own semi-colons. Also, return statements cause a particular problem:
 
     function getPerson() {
         return
@@ -489,7 +489,9 @@ If a JavaScript statement does not fit on one line (say more than 80 characters)
 
 Whitespace is invisible characters that create literal 'space' in your written code (carriage returns tabs, spaces). The JS engine allows you to act very liberally with whitespace. Whitespace is basically ignored. This can encourage you to write lots of comments, which is a great thing.
 
-Statements end with a semi-colon, so you can also place multiple statements on one line. It is also possible to declare many variables in one statement use the var keyword only once: var person = "John Doe", carName = "Volvo", price = 200; 
+Statements end with a semi-colon, so you can also place multiple statements on one line. It is also possible to declare many variables in one statement use the var keyword only once: 
+
+    var person = "John Doe", carName = "Volvo", price = 200; 
 
 JavaScript statements can be grouped together in code blocks, inside curly brackets {...}. The purpose of a code block is to define statements to be executed together. One place you will find statements grouped together in blocks, are in JavaScript functions: 
 
@@ -500,9 +502,9 @@ function myFunction() {
 
 Which in this case could be called from within a button:
 
-<p>
-<button type="button" onclick="myFunction()">Try it</button>
-</p>
+    <p>
+        <button type="button" onclick="myFunction()">Try it</button>
+    </p>
 
 This button would the simultaneously update the <div> and <p> elements.
 
@@ -510,17 +512,17 @@ This button would the simultaneously update the <div> and <p> elements.
 Two important flow statements are break and continue. The break statement "jumps out" of a loop. The continue statement "jumps over" one iteration in the loop. Examples:
 
 
-for (i = 0; i < 10; i++) {
-    if (i === 3) { break; }
-    text += "The number is " + i + "<br>";
-}                                           //the for loop never prints out the i = 3 case or beyond.
+    for (i = 0; i < 10; i++) {
+        if (i === 3) { break; }
+        text += "The number is " + i + "<br>";
+    }                                           //the for loop never prints out the i = 3 case or beyond.
 
 
 
-for (i = 0; i < 10; i++) {
-    if (i === 3) { continue; }
-    text += "The number is " + i + "<br>";
-}                                           //the loop misses the i=3 case and then continues normally.
+    for (i = 0; i < 10; i++) {
+        if (i === 3) { continue; }
+        text += "The number is " + i + "<br>";
+    }                                           //the loop misses the i=3 case and then continues normally.
 
 
 To label JavaScript statements you precede the statements with a label name and a colon. Eg:
@@ -572,6 +574,22 @@ If you omit break from a case, and that case matches or runs, execution will con
 
 Here, if a is either 2 or 10, it will execute the "some cool stuff" code statements, but not the "other stuff".
 
+Nested for-loops can usefully apply labeled statements. Given an array of items and an array of tests, this example counts the number of items that passes all the tests.
+
+    var itemsPassed = 0;
+    var i, j;
+
+    top:
+    for (i = 0; i < items.length; i++) {
+        for (j = 0; j < tests.length; j++) {
+            if (!tests[j].pass(items[i])) {
+            continue top;
+            }
+        }
+        itemsPassed++;
+    }
+
+
 
 
 
@@ -595,7 +613,7 @@ JavaScript has typed values, not typed variables.
 JavaScript variables can hold many data types such as numbers, strings, arrays(see below), objects (ie an object is a data structure - see below), Boolean, Symbol, Function (an object subtype), Array, Null, and Undefined.
 
 There are 6 primitive (single value) types.
-- undefined: a lack of existence (don't set variables to this value). 
+- undefined: a lack of existence (so that you know if have forgotten something don't set variables to this value). 
 - null: also represents lack of existence - but do set variables to this if you need to
 - boolean: true or false
 - number: a floating number. There is only one number type. More below.
@@ -606,10 +624,11 @@ JavaScript has 'dynamic typing'. This means that the same variable can be used f
 
 var x;               // Now x is undefined
 var x = 5;           // Now x is a Number
-var x = "John";      // Now x is a String //this is all part of the same procedural code; the same variable is being used for different types!
+var x = "John";      // Now x is a String //this is all part of the same procedural code; the same variable is being used for different types. 
 
 This is both powerful and dangerous. In other languages 'static typing' is employed. You have to tell the compiler ahead of time what type of value a variable will hold: eg bool isNew = 'hello' will generate an error.
 
+('let' will not let you redeclare. Also var 'declarations', wherever they occur, are processed before any code is executed. This is called hoisting. The scope of a variable declared with var is its current execution context, which is either the enclosing function or, for variables declared outside any function, global. If you re-declare with var, it will not lose its value. Declared variables are constrained in the execution context in which they are declared. Undeclared variables are always global.)
 
 JavaScript has only one type of number.
 
@@ -626,7 +645,7 @@ Infinity works much like we could expect. Eg -Infinity < Infinity evaluates to t
 Booleans can only have two values: true or false, and are often used with conditional testing (see later). Eg: var x = true;. A boolean results from a 'comparison' between any data types.
 
 
-You can use the JavaScript typeof operator (see above in the operator section) to find the type of a JavaScript variable: typeof 3.14                  // Returns number. Can also use brakets like a function call:  typeof(3.14); 
+You can use the JavaScript typeof operator (see above in the operator section) to find the type of a JavaScript variable: typeof 3.14         // Returns number. Can also use brakets like a function call:  typeof(3.14); 
 
 
 
@@ -726,12 +745,12 @@ A better way to test for only NaNs is to use the idea that NaN is never equal to
 
 Example of error checking where isNaN() works well (ie, we want to filter anything that is not an actual number, and not just NaNs):
 
-age = Number(age);
-if (isNaN(age)) {
-    voteable = "Error in input";
-} else {
-    voteable = (age < 18) ? "Too young" : "Old enough";
-}
+    age = Number(age);
+    if (isNaN(age)) {
+        voteable = "Error in input";
+    } else {
+        voteable = (age < 18) ? "Too young" : "Old enough";
+    }
 
 
 

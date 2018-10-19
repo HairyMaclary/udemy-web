@@ -36,6 +36,8 @@ CSS and Web Design
 - Define Your Project
 - Responsive Web Design
 - Quotes
+- Forms
+- Footers
 
 
 
@@ -1495,7 +1497,9 @@ Responsive Web Design
 -----------------------------------------
 Web pages on any screen size should be easy to navigate. You should not have to zoom in and out to use features.
 
-Google prioritises mobile friendly web pages in it's search results.
+Google prioritises mobile friendly web pages in it's search results. Use this meta tag in the head element:
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 The three main ingredients of responsive design are:
 
@@ -1503,7 +1507,7 @@ The three main ingredients of responsive design are:
     - Flexible images: are also sized in relative units
     - Media queries: alow us to specify different CSS style rules for different browser widths.
 
-One option is to download "responsive grid system". Other options include bootstrap or wordpress. While it's useful to at least know how to use bootstrap, for now the simpler respoive grid is often enough.
+One option is to download "responsive grid system". Other options include bootstrap or wordpress. While it's useful to at least know how to use bootstrap, however the simpler responsive grid [or flexbox] is often enough.
 
 Responsive is organised into rows and columns of a width relative to the browser window. If the screen becomes quite narrow the collumns stack. It's useful to set up some values for our rows:
 
@@ -1531,6 +1535,41 @@ Then should we change the global font-size change, then so will our h1 font size
         font-weight: 300;
         text-rendering: optimizeLegibility;
     }
+
+Using media queries, often used break points for screen width are:
+
+    0px     - 480px: cellphone
+            - 768px: tablets
+    1024px  - <1200px: rotated tablet
+
+These are based off more popular devices, but as you get more experience set them to suit what looks best at various sizes. Some examples:
+
+
+    /* Small phones: from 0 to 480px */
+    @media only screen and (max-width: 480px) { ... }
+
+    /* Small phones to small tablets: from 481px to 767px */
+    @media only screen and (max-width: 767px) { ... }
+
+    /* Small tablet to big tablet: from 768px to 1023px */
+    @media only screen and (max-width: 1023px) { ... }
+
+    /* Big tablet to 1200px (widths smaller than the 1140px row used in our project) */
+    @media only screen and (max-width: 1200px) { ... }
+
+So one way to do this is make your standard webapage and then go through, with an adjusted browser size, and add in properties to these rules. A number of the changed properties will include white space related design, such as margins, width and padding. This may involve overwriting col and row values from a library. Font size will often change as well. 
+
+Another useful property relates to hiding the overflow. Sometimes the minimum width, as we have set it for larger screens, is wider than a smaller screen. In your html rule (ie not even in a media query, but for the entire doc as a default) set this:
+
+    overflow-x: hidden;
+
+Also, when using a grid system you can set the columns to 100%. This means that they will push each other done and line up vertically.
+
+In smaller screen sizes you may also want to hide things like a navigation. 
+
+    display: none;
+
+
 
 
 Quotes
@@ -1566,3 +1605,129 @@ Example of image (profile pic) next to the quote:
     }
 
 We use a psuedo selector here to put a nice quote mark. It's also adjusted into the negative so that it looks like the quote is indented. 
+
+
+
+
+Forms
+---------------------------------------------
+
+
+Since the input element is often used we can distnguish by type:
+
+    .contact-form {
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    input[type=text],
+    input[type=email],
+    select,
+    textarea {
+        width: 100%;
+        padding: 7px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+    }
+
+    textarea {
+        height: 100px;
+    }
+
+    input[type=checkbox] {
+        margin: 10px 5px 10px 0;
+    }
+
+    *:focus {outline: none;}
+
+We also see another psuedo selector here for focus. Some of these input have annoying borders so we remove them.
+
+
+Footers
+--------------------------------------
+
+
+In this example we see a nice darker background color that contrasts well with the preceeding section that was in white.
+
+There are also two navigation groups. Neither is the default bullet points and borders. We display them inline-block so they move across the page. 
+
+When a user hovers over the social media icons, that icon color changes to it's associated social media color. To get the latest colors go to https://www.lockedownseo.com/social-media-colors/ . They also have a shared 0.2s transition.
+
+
+    footer {
+        background-color: #333;
+        padding: 50px;
+        font-size: 80%;
+    }
+
+    .footer-nav {
+        list-style: none;
+        float: left;
+    }
+
+    .social-links {
+        list-style: none;
+        float: right;
+    }
+
+    .footer-nav li,
+    .social-links li {
+        display: inline-block;
+        margin-right: 20px;
+    }
+
+    .footer-nav li:last-child,
+    .social-links li:last-child {
+        margin-right: 0;
+    }
+
+    .footer-nav li a:link,
+    .footer-nav li a:visited, 
+    .social-links li a:link,
+    .social-links li a:visited {
+        text-decoration: none;
+        border: 0;
+        color: #888;
+        -webkit-transition: color 0.2s;
+        transition: color 0.2s;
+    }
+
+    .footer-nav li a:hover,
+    .footer-nav li a:active {
+        color: #ddd;
+    }
+
+    .social-links li a:link,
+    .social-links li a:visited {
+        font-size: 160%;
+    }
+
+    .ion-social-facebook,
+    .ion-social-twitter,
+    .ion-social-googleplus,
+    .ion-social-instagram {
+        -webkit-transition: color 0.2s;
+        transition: color 0.2s;
+    }
+
+    .ion-social-facebook:hover {
+        color: #3b5998;
+    }
+
+    .ion-social-twitter:hover {
+        color: #00aced;
+    }
+
+    .ion-social-googleplus:hover {
+        color: #dd4b39;
+    }
+
+    .ion-social-instagram:hover {
+        color: #517fa4;
+    }
+
+    footer p {
+        color: #888;
+        text-align: center;
+        margin-top: 20px;
+    }
