@@ -18,6 +18,7 @@ CSS and Web Design
 - div
 - Float
 - Buttons
+- Scroll Animations
 - px vs %
 - Links
 - Flexbox
@@ -163,6 +164,16 @@ Selectors can be grouped. If elements have the same values then you can clean up
     h1 {
         font-size: 200%;
     }
+
+Selectors can also and like an AND statement. Here the rule is applied if both js--wp-1 and the animated class both properties of the same element (we can think of jquery removing and adding classes as certain conditions arrise). 
+
+    .js--wp-1.animated,
+    .js--wp-2.animated,
+    .js--wp-3.animated {
+        opacity: 1;
+    }
+
+So in a way, these css rules are like if statements, sometimes using an OR, and sometimes using AND.
 
 
 To change the style for the entire page use the body element selector:
@@ -647,10 +658,89 @@ You might also like to combine hover and active (when we are clicking on the but
 
 
 
-Another example of a a button formed from a link, but made from an image:
+Another example of a button formed from a link, but made from an image:
 
     <a href="#" class="btn-app"><img src="resources/img/download-app.svg" alt="App Store Button"></a>
     <a href="#" class="btn-app"><img src="resources/img/download-app-android.png" alt="Play Store Button"></a>
+
+
+
+We can use jquery to have a button click scroll us to another part of the page.
+
+    $(document).ready(function() {
+        $('js--scroll-to-plans').click(function() {
+            $('html, body').animate({scrollTop: $('js--section-plans').offset().top}, 1000ms;
+        });
+    });
+
+
+
+
+Scroll Animations
+-------------------------------------------------
+
+We can use these to animate elements as you scroll down the page. This brings important elements to the attention of users as the navigate the cite. 
+
+Powerful animations can be done with just CSS. Check out https://daneden.github.io/animate.css/. We can then use jquery to trigger those animations (see the jquery section in ./JavaScriptNotes.txt). 
+
+In this case we need to set some way points where the animations will occur (this uses the waypoint plug in - see the navbar example). We also need to make the way points invisible until the animation occurs. Once animated we seach for both the waypoint's class name and the animated class (eg .js--wp-1.animated ) and set full opacity.
+
+    .js--wp-1,
+    .js--wp-2,
+    .js--wp-3
+    {
+        opacity: 0;
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+    }
+
+    .js--wp-4 {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+    }
+
+    .js--wp-1.animated,
+    .js--wp-2.animated,
+    .js--wp-3.animated {
+        opacity: 1;
+    }
+
+(Waypoint 4 has a pulsing effect so doesn't need a change in opacity)
+
+
+We need to import the animate plug in:
+
+    <script src="vendors/css/animate.js"></script>
+
+Here we apply a fade in to the first element, fade in up to the second wp element, and a pulse to the forth:
+
+    $(document).ready(function() {
+        
+        $('js--wp-1').waypoint(function(direction) {   // at the first way point (a row) - also dont' actually need direction here
+            $('.js--wp-1').addClass('animate fadeIn');  // adds the animate class so that the animate plug in can be used, and then apply the fadeIn class from there.
+        }, {
+            offset: '50%'   // giving half the height as a nice lead in.
+        })
+
+        $('js--wp-2').waypoint(function(direction) {   
+            $(.js--wp-2).addClass('animate fadeInUp');  
+        }, {
+            offset: '50%'   
+        })
+
+        $('js--wp-3').waypoint(function(direction) {   
+            $(.js--wp-3).addClass('animate fadeIn');  
+        }, {
+            offset: '50%'   
+        })
+
+        $('js--wp-4').waypoint(function(direction) {   
+            $(.js--wp-4).addClass('animate pulse');  
+        }, {
+            offset: '50%'   
+        })
+    });
+
 
 
 
@@ -977,6 +1067,77 @@ NavBar Example
     .main-nav li a:active {
         border-bottom: 2px solid #e67e22;
     }
+
+
+
+
+We can use jquery to make an aditional sticky navigation bar. Once we scroll down into a section we we still want to see a modified nav bar.
+
+Consider the nav element that will have the className "sticky" (it does not actually have it yet though):
+
+    <nav className='sticky'> ...
+
+Unlike our usual navbar the background color will be transparant white. This means that some properties, like text color will need to change. Otherwise nav items will not be visible. Also, we need a different icon. This means that we actually insert a dark version of our icon directly in the HTML alongside our existing icon.
+
+                    <img src="resources/img/logo-white.png" alt="Omnifood logo" class="logo">
+                    <img src="resources/img/logo.png" alt="Omnifood logo" class="logo-black">
+
+But, by default this new logo is hidden:
+
+    .logo-black {
+        display: none;
+    }
+
+However, if logo-black is inside the nav, then it will display as block and the normal logo will no longer display:
+
+    .sticky .logo-black {
+        display: block;
+    }
+
+    .sticky .logo {
+        display: none;
+    }
+
+
+So altogether, in CSS we adjust margins, colors and text properties to match the small fixed div:
+
+    .sticky {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.98); /* we need a little transparancy so that we can see the content underneath */
+        box-shadow: 0 2px 2px #efefef;  /* helps to distinguish from the white background of a normal section */
+        z-index: 9999;  // helps in thos cases where the nav bar gets stuck behind images.
+    }
+
+    .sticky .main-nav { margin-top: 18px; }
+
+    .sticky .main-nav li a:link,
+    .sticky .main-nav li a:visited {
+        padding: 16px 0;
+        color: #555;
+    }
+
+    .sticky .logo { display: none; }
+    .sticky .logo-black { display: block; }
+
+We can now use the waypoint library to trigger a function when we scroll to a certain element. Download it and import:
+
+    <script src="vendors/js/jquery.waypoints.min.js"></script>
+
+    $(document).ready(function() {
+        $('js--section-features').waypoint(function(direction) {   // js--section-features is the class name of the waypoint
+            if (direction == 'down') {
+                $('nav).addClass('sticky');  // adds the sticky class to the nav element
+            } else {
+                $(nav).removeClass('sticky)
+            }
+        }, {
+            offset: '60 px';   // the class name change will happen 60 pixels before the waypoint - looks nicer
+        })
+    });
+
 
 
 
@@ -1568,6 +1729,35 @@ Also, when using a grid system you can set the columns to 100%. This means that 
 In smaller screen sizes you may also want to hide things like a navigation. 
 
     display: none;
+
+
+
+Not all browsers implement CSS in the same way. CSS browser prefixes allow browser makers to support new CSS features. Each browser has a prefix:
+
+    Android: -webkit-
+    Chrome: -webkit-
+    Firefox: -moz-
+    Internet Explorer: -ms-
+    iOS: -webkit-
+    Opera: -o-
+    Safari: -webkit-
+
+This is how you would make, for example, the border radius property work on older verisons of browsers:
+
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -o-border-radius: 25px;
+    border-radius: 25px;
+
+This is can be a bit boring to implement but auto-prefixing software does exist. The good ones will only prefix those properties that need it.
+
+For barkwards compatability ou can also import some js from www.jsdelivr.com
+
+    <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+    <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.jsdelivr.net/selectivizr/1.0.3b/selectivizr.min.js"></script>
+
+You can also search out the compatability of individual properties at caniuse.com
 
 
 

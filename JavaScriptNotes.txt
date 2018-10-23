@@ -6689,7 +6689,7 @@ jQuery is a popular JavaScript library that simplifies JavaScript programming. j
 
 Essentially it allows you to manipulate the Document Object Model (DOM), which is a tree like structure. The DOM is in the browser but it is separate from the JS Engine. The DOM looks at HTML and decides how to render it on the screen. JS does have access to the DOM after the page has loaded. This is how JS can change the contents of a page. 
 
-jQuery, then, as JS library, makes it easy to look at the DOM and find elements on the page. 
+jQuery, then, as a JS library, makes it easy to look at the DOM and find elements on the page. 
 
 The jQuery library contains the following features:
 
@@ -6706,13 +6706,24 @@ The first example avoids you having to download and host the file yourself. If y
 
 Google CDN:
     <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     </head>
 
 Microsoft CDN:
     <head>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
     </head>
+
+Or ajax:     
+
+<body>
+    <!-- normal page content -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</body>
+
+(some people put js files at the end of the HTML doc so that the page has already loaded before the JS has imported)
+
+
 
 Example 1:
 
@@ -6760,6 +6771,14 @@ Example 2:
 
 Also note that we have not used type="text/javascript" inside the <script> tag. This is not required in HTML5. JavaScript is the default scripting language in HTML5 and in all modern browsers.
 
+There are also a number of useful plugings that are built with jquery. One is magnific popup at http://dimsemenov.com/plugins/magnific-popup/ . You can make image pop ups and gallaries with it, as well as pop up videos and maps. Modal dialogs are also possible.
+
+Another useful plugin for tooltips is at http://iamceege.github.io/tooltipster/ .
+
+Maplace.js helps you to imbed google maps into your website. 
+
+Some other fun plug-ins include Typer.js, which can make it look like text in your page is being edited. zThis means you can have multiple messages in one line. onepage_scroll has each section fill one view port height. This can help you make presentation style websites. 
+
 
 Basic syntax is: $(selector).action()
 
@@ -6798,6 +6817,106 @@ However, there is an even shorter, but less easy to understand, method for the r
     
     });
 
+
+Click example:
+
+Sp every js file containing jquery must wait until the page has loaded. So the file with a call to the ready method.
+
+    $(document).ready(function() {
+        $('hi').click(function() {
+            $(this).css('background', '#ff0000')     // 'this' refers to the currently selected h1 element. Here we change it's background when clicked
+        })
+    });
+
+
+Using jquery to make a sticky navigation bar. Once we scroll down far so that we have left the header the nav bar will reappear.
+
+
+consider a nav element that will have the className "sticky" (it does not actually have it yet though):
+
+    <nav className='sticky'> ...
+
+Unlike our usual navbar the background color will be transparant white. This means that some properties, like text color will need to change. Otherwise nav items will not be visible. Also, we need a different icon. This means that we actually insert a dark version of our icon directly in the HTML alongside our existing icon.
+
+                    <img src="resources/img/logo-white.png" alt="Omnifood logo" class="logo">
+                    <img src="resources/img/logo.png" alt="Omnifood logo" class="logo-black">
+
+But, by default this new logo is hidden:
+
+    .logo-black {
+        display: none;
+    }
+
+However, if logo-black is inside the nav, then it will display as block and the normal logo will no longer display:
+
+    .sticky .logo-black {
+        display: block;
+    }
+
+    .sticky .logo {
+        display: none;
+    }
+
+
+So altogether, in CSS we adjust margins, colors and text properties to match the small fixed div:
+
+    .sticky {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.98); /* we need a little transparancy so that we can see the content underneath */
+        box-shadow: 0 2px 2px #efefef;  /* helps to distinguish from the white background of a normal section */
+        z-index: 9999;  // helps in thos cases where the nav bar gets stuck behind images.
+    }
+
+    .sticky .main-nav { margin-top: 18px; }
+
+    .sticky .main-nav li a:link,
+    .sticky .main-nav li a:visited {
+        padding: 16px 0;
+        color: #555;
+    }
+
+    .sticky .logo { display: none; }
+    .sticky .logo-black { display: block; }
+
+We can now use the waypoint library to trigger a function when we scroll to a certain element. Download it and import:
+
+    <script src="vendors/js/jquery.waypoints.min.js"></script>
+
+    $(document).ready(function() {
+        $('js--section-features').waypoint(function(direction) {   // js--section-features is the class name of the waypoint
+            if (direction == 'down') {
+                $('nav).addClass('sticky');  // adds the sticky class to the nav element
+            } else {
+                $(nav).removeClass('sticky)
+            }
+        }, {
+            offset: '60 px';   // the class name change will happen 60 pixels before the waypoint - looks nicer
+        })
+    });
+
+    
+We can also use jquery to have a button click scroll us to another part of the page.
+
+    $(document).ready(function() {
+        $('js--scroll-to-plans').click(function() {
+            $('html, body').animate({scrollTop: $('js--section-plans').offset().top}, 1000ms;
+        });
+    });
+
+This is useful for nav bar buttons in a single page.
+
+
+Also see the 'Scroll Animations' section in ./CSS_WebDesign.txt .
+
+
+
+
+
+
+More detail:
 
 jQuery selectors allow you to select and manipulate HTML element(s). jQuery selectors are used to "find" (or select) HTML elements based on their name, id, classes, types, attributes, values of attributes and much more. It's based on the existing CSS Selectors, and in addition, it has some own custom selectors. 
 
@@ -6949,6 +7068,8 @@ Near the end of the file you can see that there is a check for objects with the 
     if ( typeof noGlobal === strundefined ) {
         window.jQuery = window.$ = jQuery;
     }
+
+
 
 
 Transpile

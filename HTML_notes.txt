@@ -351,6 +351,15 @@ HTML forms, using the <form> element, are used to collect user input. Form eleme
 
 <input type="email" name="email" id="email" placeholder="Your email" required>  defines a required input for an email address.
 
+Also, if you specify a `for` attribute in an associated label, clicking on the label will take you to the form. The value of 'for' must be the same as the value of the input's id attribute. 
+
+    <div class="col span-1-of-3">
+        <label for="email">Email</label>
+    </div>
+    <div class="col span-2-of-3">
+        <input type="email" name="email" id="email" placeholder="Your email" required>
+    </div>
+
 <input type="radio"> defines a radio button. Radio buttons let a user select ONE of a limited number of choices:
 
     <form>
@@ -359,18 +368,6 @@ HTML forms, using the <form> element, are used to collect user input. Form eleme
     <input type="radio" name="sex" value="female">Female
     </form> 
 
-
-<input type="submit"> defines a button for submitting a form to a form-handler. The form-handler is typically a server page with a script for processing input data. The form-handler is specified in the form's action attribute:
-
-    <form action="action_page.php">
-    First name:<br>
-    <input type="text" name="firstname" value="Mickey">
-    <br>
-    Last name:<br>
-    <input type="text" name="lastname" value="Mouse">
-    <br><br>
-    <input type="submit" value="Submit">
-    </form> 
 
 To make a drop down box we use a select element with option elements. The initial visible option will be the one with the selected attribute.
 
@@ -387,6 +384,19 @@ A checkbox:
     input type="checkbox" name="news" id="news" checked> Yes, please
 
 
+The last thing we need is a submit button. 
+
+<input type="submit"> defines a button for submitting a form to a form-handler. The form-handler is typically a server page with a script for processing input data. The form-handler is specified in the form's action attribute:
+
+    <form action="action_page.php">
+        First name:<br>
+        <input type="text" name="firstname" value="Mickey">
+        <br>
+        Last name:<br>
+        <input type="text" name="lastname" value="Mouse">
+        <br><br>
+        <input type="submit" value="Submit">
+    </form> 
 
 
 The action attribute defines the action to be performed when the form is submitted. The common way to submit a form to a server, is by using a submit button. 
