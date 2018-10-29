@@ -38,10 +38,14 @@ CSS and Web Design
 - Responsive Web Design
 - Quotes
 - Forms
+- PHP Example - email generated from form
 - Footers
 - Favicons
+- Maps
 - Website Optimisation
 - Search Engine Optimisation
+- Launch a Website
+- Site Maintenance
 
 
 
@@ -1709,7 +1713,7 @@ Define Your Project
 - Define your audience -  the typical user, eg 'busy people who don't have time to cook or don't want to'.
 
 - Define the nagviagtion and site structure
-- After having a good think about the design, sketch yoru ideas before you start designing.
+- After having a good think about the design, sketch your ideas before you start designing.
 - Make many sketches but don't spend a long time making them perfect.
 - Never start designing without an idea of what you want to build. Get inspiration.
 - Once you have a sketch, use the tips above (color palate, font, whitespace, icons, videos, images, etc,) to further design. 
@@ -1905,6 +1909,96 @@ Since the input element is often used we can distnguish by type:
 We also see another psuedo selector here for focus. Some of these input have annoying borders so we remove them.
 
 
+PHP Example - email generated from form
+---------------------------------------
+
+First, this really won't work on your local build. You need to have your site hosted. 
+
+Say we have a script on our server called mailer.php. It will send emails. It looks like this:
+
+
+<?php
+
+    // Get the form fields, removes html tags and whitespace.
+    $name = strip_tags(trim($_POST["name"]));
+    $name = str_replace(array("\r","\n"),array(" "," "),$name);
+    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+    $message = trim($_POST["message"]);
+
+    // Check the data. If it is not correct the user is redirected to a webpage with failure code argument of -1. We will
+    // handle this error later. The script then executes.
+    
+    if (empty($name) OR empty($message) OR !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        header("Location: http://www.webdesigncourse.co/omnifood/index.php?success=-1#form");
+        exit;
+    }
+
+    // Set the recipient email address. Update this to YOUR desired email address.
+    $recipient = "<YOUR EMAIL HERE>";
+
+    // Set the email subject.
+    $subject = "New contact from $name";
+
+    // Build the email content.
+    $email_content = "Name: $name\n";
+    $email_content .= "Email: $email\n\n";
+    $email_content .= "Message:\n$message\n";
+
+    // Build the email headers. Not visible to the user but is part of every email
+    $email_headers = "From: $name <$email>";
+
+    // Take the above variables and send the email.
+    mail($recipient, $subject, $email_content, $email_headers);
+    
+    // IN teh successful case we redirect to an element with id="form" in index.html page with success code 1.
+    header("Location: http://www.webdesigncourse.co/omnifood/index.php?success=1#form");
+
+?>
+
+
+So in our form elements we now include an action:
+
+    <form method="post" action="mailer.php" class="contact-form">
+
+This script will now be executed when a use clicks on a submit button. 
+
+We include our messages in the html doc, but within a php tag:
+
+
+    <div class="row">
+        <?php
+
+            if($_GET['success'] == 1) {
+                echo "<div class=\"form-messages success\">Thank you!. Your message has been sent.</div>"
+            }
+            
+            if($_GET['success'] == -1) {
+                echo "<div class=\"form-messages error\">Oops! Something went wrong. Please try again.</div>"
+            }
+        >
+
+    </div>    
+
+This will cause a linting error. We actually have to rename index.html to index.php 
+
+
+Some suggested styling might be green and red backgrounds:
+
+    .success {
+        background-color: rgba(38, 191, 68, 0.8);
+    }
+
+    .error {
+        background-color: rgba(209, 46, 46, 0.8);
+    }
+
+
+
+
+
+
+
+
 Footers
 --------------------------------------
 
@@ -2005,6 +2099,56 @@ Once you upload the image the tool will give you various options, such as adding
 
 
 
+Maps
+--------------------------------------
+
+This can be done with jQuery pluging called gmaps.js. Download the jQuery file from https://hpneo.github.io/gmaps/
+
+Use the examples on that page to see what goes into the object passed in as an argument.
+
+Eg, for a basic map paste this into your jQuery file:
+
+    new GMaps({
+        div: '.map',
+        lat: -12.043333,
+        lng: -77.028333
+    });
+
+(.map is an example classname you have chosen)
+
+You also need to add the official google maps API via a script tags:
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <script type="text/javascript" src="../gmaps.js"></script>
+
+If you need specific co-ordinates you can go to google maps and copy the numbers that appear in the URL. Supply a non-default zoom level can also be helpful. The default value is 15. 
+
+So if I want to zoom into a central Dunedin I seach out "Dunedin" in google maps. The URL is:
+
+https://www.google.co.nz/maps/place/Dunedin/@-45.8726082,170.3870355,11z/data=!3m1!4b1!4m5!3m4!1s0xa82be4e00f5f513d:0x500ef8684799941!8m2!3d-45.8787605!4d170.5027976
+
+    var map = new GMaps({
+        div: '.map',
+        lat: -45.872608,
+        lng: -170.3870355
+        zoom: 12
+    });
+
+And then I can add in a marker at that location
+
+    map.addMarker({
+        lat: -45.872608,
+        lng: -170.3870355
+        title: 'Bob Burgers',
+        infoWindow: {
+        content: '<p>HTML Content</p>'
+        }
+    });
+
+
+
+
 
 Website Optimisation
 ---------------------------------------
@@ -2049,5 +2193,48 @@ Keywords spread throughout the text are very important for SEO. These are the wo
 Backlinks are very valuable too. Have other websites link back to you. These are like a recomdation of your website. 
 
 More SEO is in the course e-book.
+
+
+
+
+Launch a Website
+-----------------------------------------
+
+1. Choose and buy a domain name
+2. Buy web hosting (some services like GoDaddy does this and the last step)
+3. Upload website - often need to so this via an FTP service. You can usually get the server and user name from the hosting service.
+
+Brackets works well here. Once you have FTP set up, each time you upload only changes are sent through.
+
+
+
+
+Site Maintenance
+----------------------------------------
+
+Use Google Analytics to:
+
+- Keep track of your website's success
+- Monitor your user's behaviour
+
+Vary your site to make improvements to this success.
+
+Once you log in you can create a tracking ID for each website. This generates a script that you can add to your scripts section. If you have multiple pages you need to add the script in each page.
+
+
+
+Improving Website Conversion Rate 
+--------------------------------------------
+
+- Offer free gifts to build trust. If users like the gift they are more lkley to buy from you
+- Use string call to action buttons. And use the same buttong in several places on your site (but without spamming)
+- If you have a sign up form make sure people can see it. Use a pop up box. They are annoying but successful.
+- Around a call to action or sign up area make sure you explain the benefits of of clicking or supplying details - eg free for 30 days
+- If a user is signing up, don't ask for more information than you need. Name and email is often enough.
+- Customer testimonials is very effective, and so are the logos of other companies that use your product or service. Customers are more like to trust others than they trust you.
+- Create urgency. People are more likely to act. Ideas include limited time specials, and using words like 'hurry', 'now', 'immediately' and 'instant' in your call to action buttons. 
+- Create scarcity. When we feel like there is less of anything we value it more. For example Amazon does this well with "Only 1 left in stock".
+
+
 
 
